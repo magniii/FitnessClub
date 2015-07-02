@@ -1,4 +1,4 @@
-package fitnessclub.logic;
+package fitnessclub.logiclayer;
 
 import fitnessclub.entity.Client;
 import java.util.List;

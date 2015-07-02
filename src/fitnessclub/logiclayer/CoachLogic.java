@@ -1,4 +1,4 @@
-package fitnessclub.logic;
+package fitnessclub.logiclayer;
 
 /**
  *

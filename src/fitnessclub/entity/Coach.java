@@ -8,7 +8,7 @@ import java.util.List;
  * @author magni
  */
 public class Coach extends Person{
-    
+    private int coach_id;
     private int salary;
     private List<Integer> grades;
     
@@ -17,6 +17,14 @@ public class Coach extends Person{
         
         this.salary = salary;
         this.grades = new ArrayList<>();
+    }
+
+    public int getCoach_id() {
+        return coach_id;
+    }
+
+    public void setCoach_id(int coach_id) {
+        this.coach_id = coach_id;
     }
 
     public int getSalary() {

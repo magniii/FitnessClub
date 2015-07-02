@@ -5,6 +5,7 @@ package fitnessclub.entity;
  * @author magni
  */
 public class Person {
+    protected int id;
     protected String forname;
     protected String surname;
     protected String login;
@@ -15,6 +16,14 @@ public class Person {
         this.surname = surname;
         this.login = login;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     public String getForname() {

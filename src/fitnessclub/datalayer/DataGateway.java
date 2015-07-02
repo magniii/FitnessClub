@@ -10,22 +10,14 @@ import java.sql.Statement;
  *
  * @author magni
  */
-public class Data {
-    String strDatabasePath;
-    String strURL;
-    String strUser;
-    String strPassword;
-    Connection conn;
+public class DataGateway {
+    public final static String strDatabasePath = "d:\\student\\progr_arch\\git\\FitnessClub\\resource\\clubdb.fdb";
+    public final static String strURL = "jdbc:firebirdsql:localhost:" + strDatabasePath;
+    public final static String strUser = "SYSDBA";
+    public final static String strPassword = "masterkey";
+    public static Connection conn = null;
 
-    Data() {
-        strDatabasePath = "d:/student/progr_arch/git/resource/clubdb.fdb";
-        strURL = "jdbc:firebirdsql:localhost:" + strDatabasePath;
-        strUser = "SYSDBA";
-        strPassword = "masterkey";
-        conn = null;
-    }
-
-    public void initdb() {
+    public static void initdb() {
         try {
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
@@ -33,7 +25,7 @@ public class Data {
         }
     }
 
-    public void connect() {
+    public static void connect() {
         try {
             //Создаём подключение к базе данных
             conn = DriverManager.getConnection(strURL, strUser, strPassword);
@@ -46,18 +38,15 @@ public class Data {
         }
     }
 
-    public String request(String str) {
+    public static ResultSet request(String str) {
+        ResultSet rs = null;
         String temp = "";
 
         try {
-            // Создаём класс, с помощью которого будут выполняться 
-            // SQL запросы.
             Statement stmt = conn.createStatement();
 
-            //Выполняем SQL запрос.
-            ResultSet rs = stmt.executeQuery(str);
+            rs = stmt.executeQuery(str);
 
-            // Смотрим количество колонок в результате SQL запроса.
             int nColumnsCount = rs.getMetaData().getColumnCount();
 
             while (rs.next()) {
@@ -68,25 +57,31 @@ public class Data {
                     }
                 }
             }
-            //System.out.println(temp);
+            System.out.println(temp);
 
             stmt.close();
-
-
         } catch (SQLException ex) {
-            System.out.println("db request error " + ex);
+            System.out.println("db request error: " + ex);
         }
 
-        return temp;
+        return rs;
+    }
+    
+    public static void update(String str) {
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(str);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("db request error: " + ex);
+        }
     }
 
-    public void close() {
+    public static void close() {
         try {
             conn.close();
         } catch (SQLException ex) {
             System.out.println("closing connection error: " + ex);
         }
     }
-    
-    
 }
