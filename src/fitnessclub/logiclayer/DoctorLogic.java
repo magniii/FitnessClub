@@ -6,7 +6,6 @@ package fitnessclub.logiclayer;
  */
 public class DoctorLogic {
     
-    
     public void doCheck(){
         
     }

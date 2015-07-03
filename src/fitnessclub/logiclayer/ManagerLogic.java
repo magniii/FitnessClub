@@ -1,42 +1,59 @@
 package fitnessclub.logiclayer;
 
-import fitnessclub.entity.Client;
-import java.util.List;
+import fitnessclub.datalayer.ApplicationGateway;
+import fitnessclub.datalayer.ClientGateway;
+import fitnessclub.datalayer.CoachGateway;
+import fitnessclub.datalayer.DoctorGateway;
+import fitnessclub.datalayer.PersonGateway;
 
 /**
  *
  * @author magni
  */
 public class ManagerLogic {
-    private List<Client> clients;
+    ApplicationGateway ag = new ApplicationGateway();
+    ClientGateway cg = new ClientGateway();
+    PersonGateway pg = new PersonGateway();
+    CoachGateway cog = new CoachGateway();
+    DoctorGateway dg = new DoctorGateway();
     
-    public List<Client> showAllClients(){
-        return this.clients;
+    public void formDoctorRequest(int client_id){
+        ag.setAppStateByClient(client_id, 3);
     }
     
-    public Client showClient(String login){
-        for (Client client : clients) {
-            if(client.getLogin().equals(login)){
-                return client;
-            }
+    public void offerClientContract(int client_id){
+        ag.setAppStateByClient(client_id, 5);
+    }
+    
+    public void registerClient(int client_id){
+        ag.setAppStateByClient(client_id, 7);
+    }
+    
+    public void registerCoach(String forname, String surname, String login, String password){
+        int person_id = 0;
+        
+        pg.addPerson(forname, surname, login, password);
+        
+        try{
+            person_id = Integer.parseInt(pg.getPersonIdByLogin(login));
+        }catch(NumberFormatException ex){
+            System.out.println("error in registering coach: " + ex);
         }
         
-        return null;
+        cog.addCoach(person_id);
     }
     
-    public void registerClient(){
+    public void registerDoctor(String forname, String surname, String login, String password){
+        int person_id = 0;
         
-    }
-    
-    public void registerStaff(){
+        pg.addPerson(forname, surname, login, password);
         
-    }
-    
-    public void formDoctorRequest(){
+        try{
+            person_id = Integer.parseInt(pg.getPersonIdByLogin(login));
+        }catch(NumberFormatException ex){
+            System.out.println("error in registering doctor: " + ex);
+        }
         
-    }
-    
-    public void countSalary(){
-        
+        dg.addDoctor(person_id);
     }
 }

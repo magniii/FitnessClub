@@ -38,7 +38,7 @@ public class DataGateway {
         }
     }
 
-    public static ResultSet request(String str) {
+    public static String request(String str) {
         ResultSet rs = null;
         String temp = "";
 
@@ -57,14 +57,14 @@ public class DataGateway {
                     }
                 }
             }
-            System.out.println(temp);
+            //System.out.println(temp);
 
             stmt.close();
         } catch (SQLException ex) {
             System.out.println("db request error: " + ex);
         }
 
-        return rs;
+        return temp;
     }
     
     public static void update(String str) {
@@ -76,7 +76,7 @@ public class DataGateway {
             System.out.println("db request error: " + ex);
         }
     }
-
+    
     public static void close() {
         try {
             conn.close();
