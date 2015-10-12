@@ -4,10 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/FitnessClub.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/DataGateway.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/entity/Person.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/ManagerGateway.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/servicelayer/ServiceLayer.java</file>
             <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/ClientGateway.java</file>
             <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/logiclayer/ClientLogic.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/ApplicationGateway.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/interfacelayer/AuthFrame.java</file>
         </group>
     </open-files>
 </project-private>

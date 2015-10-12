@@ -5,13 +5,13 @@ package fitnessclub.datalayer;
  * @author magni
  */
 public class CoachGateway {
-    public String getCoachById(int id){
-        if(id < 1){
+    public String getCoachByPersonId(int personid){
+        if(personid < 1){
             System.out.println("getting coach by id error: wrong id");
             return "";
         }
         
-        return DataGateway.request("select * from coach join person on person.id = coach.person_id and coach.id = " + id);
+        return DataGateway.request("select * from coach join person on person.id = coach.person_id and person.id = " + personid);
     }
     
     public String getAllCoaches(){

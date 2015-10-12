@@ -31,13 +31,22 @@ public class ApplicationGateway {
         return DataGateway.request("select * from application join client on client.id = application.client_id and application.id = " + id); //join?
     }
     
-    public String getAppByClient(int client_id){
+    public String getAppByClientId(int client_id){
         if(client_id < 1){
-            System.out.println("getting application by client error: wrong client_id");
+            System.out.println("getting application by clientid error: wrong client_id");
             return "";
         }
         
         return DataGateway.request("select * from application join client on client.id = application.client_id and application.client_id = " + client_id);
+    }
+    
+    public String getAppStateByClientId(int client_id){
+        if(client_id < 1){
+            System.out.println("getting application by clientid error: wrong client_id");
+            return "";
+        }
+        
+        return DataGateway.request("select state_id from application join client on client.id = application.client_id and application.client_id = " + client_id);
     }
     
     public void setAppStateByClient(int client_id, int state_id){

@@ -39,8 +39,11 @@ public class DataGateway {
     }
 
     public static String request(String str) {
-        ResultSet rs = null;
+        ResultSet rs;
         String temp = "";
+        
+        System.out.println("request: " + str);
+        System.out.println("result: ");
 
         try {
             Statement stmt = conn.createStatement();
@@ -57,7 +60,8 @@ public class DataGateway {
                     }
                 }
             }
-            //System.out.println(temp);
+            System.out.println(temp);
+            System.out.println("-------------------------");
 
             stmt.close();
         } catch (SQLException ex) {
@@ -69,6 +73,8 @@ public class DataGateway {
     
     public static void update(String str) {
         try {
+            System.out.println("update: " + str);
+            
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(str);
             stmt.close();

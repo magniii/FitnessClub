@@ -5,17 +5,17 @@ package fitnessclub.datalayer;
  * @author magni
  */
 public class DoctorGateway {
-    public String getDoctorById(int id){
-        if(id < 1){
+    public String getDoctorByPersonId(int personid){
+        if(personid < 1){
             System.out.println("getting doctor by id error: wrong id");
             return "";
         }
         
-        return DataGateway.request("select * from doctor join person on person.id = doctor.person_id and doctor.id = " + id);
+        return DataGateway.request("select * from doctor join person on person.id = doctor.person_id and person.id = " + personid);
     }
     
     public String getAllDoctors(){
-        return DataGateway.request("select * from doctor join person on person.id = client.person_id");
+        return DataGateway.request("select * from doctor join person on person.id = doctor.person_id");
     }
     
     public void addDoctor(int person_id){

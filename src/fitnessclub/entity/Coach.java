@@ -18,6 +18,10 @@ public class Coach extends Person{
         this.salary = salary;
         this.grades = new ArrayList<>();
     }
+    
+    public Coach(){
+        super("", "", "", "");
+    }
 
     public int getCoach_id() {
         return coach_id;

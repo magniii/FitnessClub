@@ -10,6 +10,10 @@ public class Manager extends Person{
     public Manager(String forname, String surname, String login, String password) {
         super(forname, surname, login, password);
     }
+    
+    public Manager() {
+        super("", "", "", "");
+    }
 
     public int getManager_id() {
         return manager_id;

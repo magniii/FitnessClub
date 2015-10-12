@@ -10,6 +10,10 @@ public class Doctor extends Person{
     public Doctor(String forname, String surname, String login, String password) {
         super(forname, surname, login, password);
     }
+    
+    public Doctor() {
+        super("", "", "", "");
+    }
 
     public int getDoctor_id() {
         return doctor_id;
