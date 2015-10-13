@@ -2,7 +2,11 @@ package fitnessclub.servicelayer;
 
 import fitnessclub.datalayer.ApplicationGateway;
 import fitnessclub.entity.Client;
+import fitnessclub.entity.Coach;
+import fitnessclub.entity.Doctor;
+import fitnessclub.entity.Manager;
 import fitnessclub.logiclayer.ClientLogic;
+import fitnessclub.logiclayer.CoachClientsLogic;
 import fitnessclub.logiclayer.CoachLogic;
 import fitnessclub.logiclayer.DoctorLogic;
 import fitnessclub.logiclayer.ManagerLogic;
@@ -23,6 +27,7 @@ public class ServiceLayer {
     public ManagerLogic ml;
     public CoachLogic col;
     public ApplicationGateway ag;
+    public CoachClientsLogic ccl;
 
     public ServiceLayer() {
         this.pl = new PersonLogic();
@@ -31,6 +36,7 @@ public class ServiceLayer {
         this.ml = new ManagerLogic();
         this.dl = new DoctorLogic();
         this.ag = new ApplicationGateway();
+        this.ccl = new CoachClientsLogic();
     }
     
     public Object checkAuth(String login, String password){
@@ -74,16 +80,52 @@ public class ServiceLayer {
         
     }
     
-    public void createNewCoach(){
+    public void createNewCoach(Coach c){
+        if(c == null){
+            return;
+        }
         
+        pl.addPerson(c.getForname(), c.getSurname(), c.getLogin(), c.getPassword());
+        
+        int personid = pl.getPersonIdByLogin(c.getLogin());
+        
+        if(personid == -1){
+            return;
+        }
+        
+        /////////////////////////////////////////////////////
     }
     
-    public void createNewDoctor(){
+    public void createNewDoctor(Doctor d){
+        if(d == null){
+            return;
+        }
         
+        pl.addPerson(d.getForname(), d.getSurname(), d.getLogin(), d.getPassword());
+        
+        int personid = pl.getPersonIdByLogin(d.getLogin());
+        
+        if(personid == -1){
+            return;
+        }
+        
+        /////////////////////////////////////////////////////////////
     } 
     
-    public void createNewManager(){
+    public void createNewManager(Manager m){
+        if(m == null){
+            return;
+        }
         
+        pl.addPerson(m.getForname(), m.getSurname(), m.getLogin(), m.getPassword());
+        
+        int personid = pl.getPersonIdByLogin(m.getLogin());
+        
+        if(personid == -1){
+            return;
+        }
+        
+        /////////////////////////////////////////////////////////////
     }
     
     public DefaultListModel<String> parseAllStaff(){
@@ -135,6 +177,27 @@ public class ServiceLayer {
         return dlm;
     }
     
+    public DefaultListModel<String> parseAllCoaches(){
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        String tmp;
+
+        String str = col.getAllCoaches();
+        StringTokenizer stkn = new StringTokenizer(str, "\n");
+
+        while (stkn.hasMoreTokens()) {
+            tmp = stkn.nextToken() + " ";
+            stkn.nextToken();
+            stkn.nextToken();
+            tmp = tmp + stkn.nextToken() + " " + stkn.nextToken();
+            dlm.addElement(tmp);
+            stkn.nextToken();
+            stkn.nextToken();
+            stkn.nextToken();
+        }
+        
+        return dlm;
+    }
+    
     public DefaultListModel<String> parseAllClients() {
         DefaultListModel<String> dlm = new DefaultListModel<>();
         String tmp;
@@ -155,5 +218,13 @@ public class ServiceLayer {
         }
 
         return dlm;
+    }
+    
+    public void assignClientToCoach(int client_id, int coach_id){
+        if((client_id < 1) || (coach_id < 1)){
+            return;
+        }
+        
+        ccl.assignClientToCoach(client_id, coach_id);
     }
 }

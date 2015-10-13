@@ -4,14 +4,20 @@ import fitnessclub.Util;
 import fitnessclub.datalayer.DataGateway;
 import fitnessclub.entity.Client;
 import fitnessclub.servicelayer.ServiceLayer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author magni
  */
-public class ClientFrame extends javax.swing.JFrame {
+public class ClientFrame extends javax.swing.JFrame implements ActionListener{
 
     ServiceLayer sl = new ServiceLayer();
+    CoachListFrame clf;
+    protected Client c;
     /**
      * Creates new form ClientFrame
      * @param c
@@ -19,43 +25,50 @@ public class ClientFrame extends javax.swing.JFrame {
     public ClientFrame(Client c) {
         initComponents();
         
+        this.c = c;
         this.jLabel5.setText(c.getForname());
         this.jLabel6.setText(c.getSurname());
         this.jLabel7.setText(c.getBirthDate().toString());
+        this.jButton1.setEnabled(false);
+        this.changeCoachButton.setEnabled(false);
         
         switch(c.getAppstate()){
             case 1:
                 this.jLabel10.setText("Waiting approval");
                 break;
             case 2:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Approved");
                 break;
             case 3:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Visit Doctor " + "doctor_name");
                 break;
             case 4:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Health ok");
                 break;
             case 5:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Sign up the contract");
+                this.jButton1.setText("Read");
+                this.jButton1.setEnabled(true);
                 break;
             case 6:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Contract signed");
                 break;
             case 7:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Welcome to FitnessClub");
+                this.changeCoachButton.setEnabled(true);
                 break;
             case 8:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Waiting coach approval");
                 break;
             case 9:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Fill the form");
                 break;
             case 10:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Waiting for program");
                 break;
             case 11:
-                this.jLabel10.setText("");
+                this.jLabel10.setText("Program assigned");
+                this.changeCoachButton.setEnabled(true);
                 break;
         }
     }
@@ -80,9 +93,11 @@ public class ClientFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         changeCoachButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FitnessClub client interface");
+        setName("clientframe"); // NOI18N
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -111,11 +126,14 @@ public class ClientFrame extends javax.swing.JFrame {
         jLabel10.setText("null");
 
         changeCoachButton.setText("Change");
+        changeCoachButton.setEnabled(false);
         changeCoachButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changeCoachButtonActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Modify");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,8 +159,9 @@ public class ClientFrame extends javax.swing.JFrame {
                             .addComponent(jLabel5)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10))
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -165,18 +184,23 @@ public class ClientFrame extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel8)
                     .addComponent(changeCoachButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(5, 5, 5))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeCoachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeCoachButtonActionPerformed
-        // TODO add your handling code here:
+        clf = new CoachListFrame(c.getClientId());
+        clf.setVisible(true);
+        
+        clf.jButton1.addActionListener(this);
     }//GEN-LAST:event_changeCoachButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -187,6 +211,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton changeCoachButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -198,4 +223,10 @@ public class ClientFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String s = clf.selectedRow.substring(clf.selectedRow.indexOf(" "), clf.selectedRow.length());
+        jLabel8.setText(s);
+    }
 }
