@@ -159,6 +159,8 @@ public class CoachFrame extends javax.swing.JFrame {
             jList1.setModel(sl.getCoachClients(coach.getCoach_id()));
             jButton1.setEnabled(false);
         }else if(tmpappstate == 10){
+            CoachProgramFrame cpf = new CoachProgramFrame(tmppersonid);
+            cpf.setVisible(true);
             jButton1.setEnabled(false);
         }else{
             

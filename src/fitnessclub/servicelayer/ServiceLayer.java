@@ -290,4 +290,15 @@ public class ServiceLayer {
     public void coachAcceptsClientRequest(int person_id){
         col.acceptClientRequest(person_id);
     }
+    
+    public void coachSendsProgram(String text, int personid){
+        if(text.isEmpty() || (personid < 1)){
+            return;
+        }
+        
+        int tmpclientid = cl.getClientId(personid);
+        
+        ag.setAppStateByClient(tmpclientid, 11);
+        ag.changeAppText(tmpclientid, text);
+    }
 }
