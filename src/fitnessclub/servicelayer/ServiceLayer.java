@@ -8,6 +8,7 @@ import fitnessclub.entity.Manager;
 import fitnessclub.logiclayer.ClientLogic;
 import fitnessclub.logiclayer.CoachClientsLogic;
 import fitnessclub.logiclayer.CoachLogic;
+import fitnessclub.logiclayer.DoctorClientsLogic;
 import fitnessclub.logiclayer.DoctorLogic;
 import fitnessclub.logiclayer.ManagerLogic;
 import fitnessclub.logiclayer.PersonLogic;
@@ -28,6 +29,7 @@ public class ServiceLayer {
     public CoachLogic col;
     public ApplicationGateway ag;
     public CoachClientsLogic ccl;
+    public DoctorClientsLogic dcl;
 
     public ServiceLayer() {
         this.pl = new PersonLogic();
@@ -37,6 +39,7 @@ public class ServiceLayer {
         this.dl = new DoctorLogic();
         this.ag = new ApplicationGateway();
         this.ccl = new CoachClientsLogic();
+        this.dcl = new DoctorClientsLogic();
     }
     
     public Object checkAuth(String login, String password){
@@ -50,10 +53,10 @@ public class ServiceLayer {
         
         if(cl.authClientByPersonId(personid) != null){
             return cl.authClientByPersonId(personid);
-//        }else if(col.authCoachByPersonId(personid) != null){
-//            col.authCoachByPersonId(personid)
-//        }else if(dl.authDoctorByPersonId(personid) != null){
-//            dl.authDoctorByPersonId(personid)
+        }else if(col.authCoachByPersonId(personid) != null){
+            return col.authCoachByPersonId(personid);
+        }else if(dl.authDoctorByPersonId(personid) != null){
+            return dl.authDoctorByPersonId(personid);
         }else if(ml.authManagerByPersonId(personid) != null){
             return ml.authManagerByPersonId(personid);
         }else{
@@ -198,6 +201,62 @@ public class ServiceLayer {
         return dlm;
     }
     
+    public DefaultListModel<String> getCoachClients(int coach_id){
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        String tmp;
+
+        String str = ccl.getCoachClients(coach_id);
+        StringTokenizer stkn = new StringTokenizer(str, "\n");
+
+        while (stkn.hasMoreTokens()) {
+            tmp = stkn.nextToken(); //person_id to string
+            
+            int tmppersonid = Integer.parseInt(tmp);
+            int tmpclientid = cl.getClientId(tmppersonid);
+            String tmpstr = ag.getAppStateByClientId(tmpclientid);
+            tmpstr = tmpstr.substring(0, tmpstr.length() - 1);
+            int tmpappstate = Integer.parseInt(tmpstr);
+            if(tmpappstate == 8){
+                tmp = "NEW " + tmp;
+            }
+            
+            tmp = tmp + " " + stkn.nextToken() + " " + stkn.nextToken(); // + name + surname to string
+            dlm.addElement(tmp);
+        }
+        
+        return dlm;
+    }
+    
+    public DefaultListModel<String> getDoctorClients(int doctor_id){
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        String tmp;
+
+        String str = dcl.getDoctorClients(doctor_id);
+        StringTokenizer stkn = new StringTokenizer(str, "\n");
+
+        while (stkn.hasMoreTokens()) {
+            tmp = stkn.nextToken() + " " + stkn.nextToken() + " " + stkn.nextToken();
+            dlm.addElement(tmp);
+        }
+        
+        return dlm;
+    }
+    
+    public int checkAppState(int person_id){
+        
+        int tmpclientid = cl.getClientId(person_id);
+        
+        String tmpstr = ag.getAppStateByClientId(tmpclientid);
+        tmpstr = tmpstr.substring(0, tmpstr.length() - 1);
+        int tmpappstate = Integer.parseInt(tmpstr);
+        
+        return tmpappstate;
+    }
+    
+    public void doctorCheckedClient(int person_id){
+        dl.checkClient(person_id);
+    }
+    
     public DefaultListModel<String> parseAllClients() {
         DefaultListModel<String> dlm = new DefaultListModel<>();
         String tmp;
@@ -226,5 +285,9 @@ public class ServiceLayer {
         }
         
         ccl.assignClientToCoach(client_id, coach_id);
+    }
+    
+    public void coachAcceptsClientRequest(int person_id){
+        col.acceptClientRequest(person_id);
     }
 }

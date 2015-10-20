@@ -11,7 +11,7 @@ import java.sql.Statement;
  * @author magni
  */
 public class DataGateway {
-    public final static String strDatabasePath = "d:\\student\\progr_arch\\git\\FitnessClub\\resource\\clubdb.fdb";
+    public final static String strDatabasePath = System.getProperty("user.dir") + "\\resource\\clubdb.fdb";
     public final static String strURL = "jdbc:firebirdsql:localhost:" + strDatabasePath;
     public final static String strUser = "SYSDBA";
     public final static String strPassword = "masterkey";
@@ -34,7 +34,7 @@ public class DataGateway {
                 System.err.println("Could not connect to database");
             }
         } catch (SQLException ex) {
-            System.out.println("db connect error" + ex);
+            System.out.println("db connect error " + ex);
         }
     }
 
@@ -86,7 +86,9 @@ public class DataGateway {
     
     public static void close() {
         try {
-            conn.close();
+            if(conn != null){
+                conn.close();
+            }
         } catch (SQLException ex) {
             System.out.println("closing connection error: " + ex);
         }

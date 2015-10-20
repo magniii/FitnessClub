@@ -9,33 +9,46 @@ import fitnessclub.entity.Coach;
  * @author magni
  */
 public class CoachLogic {
+    ClientLogic cl = new ClientLogic();
     ApplicationGateway ag = new ApplicationGateway();
     CoachGateway cg = new CoachGateway();
     
-    public boolean authCoachByPersonId(int personid){
+    public Coach authCoachByPersonId(int personid){
         if(personid < 1){
-            return false;
+            return null;
+        }
+
+        Coach c = new Coach();
+        String tmp = cg.getCoachByPersonId(personid);
+        
+        if(tmp.isEmpty()){
+            return null;
         }
         
-        //check session here
-
-        return !cg.getCoachByPersonId(personid).isEmpty();
+        String[] tmpfields = tmp.split("\n");
+        c.setCoach_id(Integer.parseInt(tmpfields[0]));
+        c.setId(Integer.parseInt(tmpfields[2]));
+        c.setForname(tmpfields[3]);
+        c.setSurname(tmpfields[4]);
+        
+        return c;
     }
     
-    public String acceptClientRequest(int client_id){
-        String result = "";
+    public void acceptClientRequest(int person_id){
+        if(person_id < 1){
+            return;
+        }
+        
+        int client_id = cl.getClientId(person_id);
         
         ag.setAppStateByClient(client_id, 9);
-        
-        
-        return result;
     }
     
     public String getAllCoaches(){
         return cg.getAllCoaches();
     }
     
-    public void formClientProgram(){
+    public void createClientProgram(String programText){
         
     }
 }

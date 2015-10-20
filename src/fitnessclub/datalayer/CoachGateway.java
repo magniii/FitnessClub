@@ -26,4 +26,8 @@ public class CoachGateway {
         
         DataGateway.update("insert into coach (person_id) values (" + person_id + ")");
     }
+    
+    public void addTextToApp(String text){
+        // update
+    }
 }

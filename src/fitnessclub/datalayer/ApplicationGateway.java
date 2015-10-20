@@ -63,15 +63,6 @@ public class ApplicationGateway {
         DataGateway.update("update application set state_id = " + state_id + " where client_id = " + client_id);
     }
     
-    public String getAppStateByClient(int client_id){
-        if(client_id < 1){
-            System.out.println("getting application state error: wrong client_id");
-            return "";
-        }
-        
-        return DataGateway.request("select app_text from application_state where id in select state_id from application where client_id = " + client_id);
-    }
-    
     public String getAppTextByClient(int client_id){
         if(client_id < 1){
             System.out.println("getting application text error: wrong client_id");

@@ -17,4 +17,8 @@ public class CoachClientsLogic {
                 
         ccg.addClientToCoach(clientid, coachid);
     }
+    
+    public String getCoachClients(int coach_id){
+        return ccg.getCoachClients(coach_id);
+    }
 }

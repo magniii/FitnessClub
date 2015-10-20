@@ -140,13 +140,13 @@ public class AuthFrame extends javax.swing.JFrame {
             cf.setVisible(true);
             this.setVisible(false);
         }else if(result instanceof Coach){
-            // CoachFrame cof = new CoachFrame((Coach)result);
-            // cof.setVisible(true);
-            // this.setVisible(false);
+             CoachFrame cof = new CoachFrame((Coach)result);
+             cof.setVisible(true);
+             this.setVisible(false);
         }else if(result instanceof Doctor){
-            // DoctorFrame df = new DoctorFrame((Doctor)result);
-            // df.setVisible(true);
-            // this.setVisible(false);
+             DoctorFrame df = new DoctorFrame((Doctor)result);
+             df.setVisible(true);
+             this.setVisible(false);
         }else if(result instanceof Manager){
             ManagerFrame mf = new ManagerFrame((Manager)result);
             mf.setVisible(true);
