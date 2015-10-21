@@ -21,4 +21,12 @@ public class CoachClientsLogic {
     public String getCoachClients(int coach_id){
         return ccg.getCoachClients(coach_id);
     }
+    
+    public String getClientsCoach(int client_id){
+        if(client_id < 1){
+            return "";
+        }
+        
+        return ccg.getClientsCoach(client_id);
+    }
 }

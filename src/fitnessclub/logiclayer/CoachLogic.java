@@ -48,6 +48,14 @@ public class CoachLogic {
         return cg.getAllCoaches();
     }
     
+    public void addCoach(int personid){
+        if(personid < 1){
+            return;
+        }
+        
+        cg.addCoach(personid);
+    }
+    
     public void createClientProgram(String programText){
         
     }

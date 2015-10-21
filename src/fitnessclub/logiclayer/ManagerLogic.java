@@ -46,30 +46,54 @@ public class ManagerLogic {
     }
     
     public void formDoctorRequest(int client_id){
+        if(client_id < 1){
+            return;
+        }
+        
         ag.setAppStateByClient(client_id, 3);
     }
     
     public void offerClientContract(int client_id){
+        if(client_id < 1){
+            return;
+        }
+                
         ag.setAppStateByClient(client_id, 5);
     }
     
     public void registerClient(int client_id){
+        if(client_id < 1){
+            return;
+        }
+        
         ag.setAppStateByClient(client_id, 7);
     }
     
     public void registerCoach(String forname, String surname, String login, String password){
-        int person_id = 0;
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return;
+        }
         
         pg.addPerson(forname, surname, login, password);
-        person_id = pg.getPersonIdByLogin(login);
+        int person_id = pg.getPersonIdByLogin(login);
         cog.addCoach(person_id);
     }
     
     public void registerDoctor(String forname, String surname, String login, String password){
-        int person_id = 0;
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return;
+        }
         
         pg.addPerson(forname, surname, login, password);
-        person_id = pg.getPersonIdByLogin(login);
+        int person_id = pg.getPersonIdByLogin(login);
         dg.addDoctor(person_id);
+    }
+    
+    public void addManager(int personid){
+        if(personid < 1){
+            return;
+        }
+        
+        mg.addManager(personid);
     }
 }

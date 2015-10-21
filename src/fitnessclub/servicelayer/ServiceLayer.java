@@ -96,7 +96,7 @@ public class ServiceLayer {
             return;
         }
         
-        /////////////////////////////////////////////////////
+        col.addCoach(personid);
     }
     
     public void createNewDoctor(Doctor d){
@@ -112,7 +112,7 @@ public class ServiceLayer {
             return;
         }
         
-        /////////////////////////////////////////////////////////////
+        dl.addDoctor(personid);
     } 
     
     public void createNewManager(Manager m){
@@ -128,7 +128,7 @@ public class ServiceLayer {
             return;
         }
         
-        /////////////////////////////////////////////////////////////
+        ml.addManager(personid);
     }
     
     public DefaultListModel<String> parseAllStaff(){
@@ -300,5 +300,27 @@ public class ServiceLayer {
         
         ag.setAppStateByClient(tmpclientid, 11);
         ag.changeAppText(tmpclientid, text);
+    }
+    
+    public Coach getClientsCoach(int client_id){
+        if(client_id < 1){
+            return null;
+        }
+        
+        String tmp = ccl.getClientsCoach(client_id);
+        
+        Coach c = new Coach();
+        if(!tmp.isEmpty()){
+            String[] tmpsplit = tmp.split("\n");
+            
+            c.setId(Integer.parseInt(tmpsplit[0]));
+            c.setForname(tmpsplit[1]);
+            c.setSurname(tmpsplit[2]);
+        }else{
+            c.setForname("No");
+            c.setSurname("Coach");
+        }
+        
+        return c;
     }
 }

@@ -1,13 +1,35 @@
 package fitnessclub.interfacelayer;
 
+import fitnessclub.Util;
+import fitnessclub.servicelayer.ServiceLayer;
+
 /**
  *
  * @author magni
  */
 public class ClientTextFrame extends javax.swing.JFrame {
 
-    public ClientTextFrame() {
+    int mode;
+    ServiceLayer sl = new ServiceLayer();
+    
+    public ClientTextFrame(int _mode) { // 1=contract, 2=coach form
         initComponents();
+        
+        mode = _mode;
+        
+        if(mode == 1){
+            this.jTextArea1.setText(Util.contractText);
+            this.setTitle("contract details");
+            this.jButton1.setText("Accept");
+        }else if(mode == 2){
+            this.setTitle("program details");
+            this.jButton1.setText("OK");
+            this.jTextArea1.setEditable(false);
+            this.jTextArea1.setText(Util.formText);
+        }else{
+            this.setVisible(false);
+        }
+       
     }
 
     /**
@@ -24,6 +46,7 @@ public class ClientTextFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -32,6 +55,11 @@ public class ClientTextFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -54,6 +82,17 @@ public class ClientTextFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(mode == 1){
+            //sl.clientAcceptsContract();
+            this.setVisible(false);
+        }else if(mode == 2){
+            this.setVisible(false);
+        }else{
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

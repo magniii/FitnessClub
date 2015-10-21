@@ -4,12 +4,14 @@ import fitnessclub.Util;
 import fitnessclub.datalayer.DataGateway;
 import fitnessclub.entity.Manager;
 import fitnessclub.servicelayer.ServiceLayer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author magni
  */
-public class ManagerFrame extends javax.swing.JFrame {
+public class ManagerFrame extends javax.swing.JFrame{
 
     ServiceLayer sl = new ServiceLayer();
     /**

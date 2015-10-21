@@ -54,4 +54,12 @@ public class DoctorLogic {
         
         ag.setAppStateByClient(tmpclientid, tmpappstate);
     }
+    
+    public void addDoctor(int personid){
+        if(personid < 1){
+            return;
+        }
+        
+        dg.addDoctor(personid);
+    }
 }

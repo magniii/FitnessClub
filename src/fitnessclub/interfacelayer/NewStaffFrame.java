@@ -1,16 +1,28 @@
 package fitnessclub.interfacelayer;
 
+import fitnessclub.Util;
+import fitnessclub.datalayer.DataGateway;
+import fitnessclub.entity.Coach;
+import fitnessclub.entity.Doctor;
+import fitnessclub.entity.Manager;
+import fitnessclub.servicelayer.ServiceLayer;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author magni
  */
 public class NewStaffFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewStaffFrame
-     */
+    ServiceLayer sl = new ServiceLayer();
+    
     public NewStaffFrame() {
         initComponents();
+        
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
     }
 
     /**
@@ -38,15 +50,16 @@ public class NewStaffFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FitnessClub New Staff");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Login");
 
         jTextField1.setText("login");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Password");
 
@@ -70,6 +83,11 @@ public class NewStaffFrame extends javax.swing.JFrame {
         jRadioButton3.setText("Doctor");
 
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,13 +148,36 @@ public class NewStaffFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        sl.pl.logOff(Util.currPersonOnline);
+        DataGateway.close();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jTextField1.getText().isEmpty() ||
+                jTextField2.getText().isEmpty() ||
+                jTextField3.getText().isEmpty() ||
+                jTextField4.getText().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Fill all fields!");
+        }
+        
+        if(jRadioButton1.isSelected()){
+            Manager m = new Manager(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
+            sl.createNewManager(m);
+        }else if(jRadioButton2.isSelected()){
+            Coach c = new Coach(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
+            sl.createNewCoach(c);
+        }else if(jRadioButton3.isSelected()){
+            Doctor c = new Doctor(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
+            sl.createNewDoctor(c);
+        }
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

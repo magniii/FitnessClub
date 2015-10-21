@@ -3,6 +3,7 @@ package fitnessclub.interfacelayer;
 import fitnessclub.Util;
 import fitnessclub.datalayer.DataGateway;
 import fitnessclub.entity.Client;
+import fitnessclub.entity.Coach;
 import fitnessclub.servicelayer.ServiceLayer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,8 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
 
     ServiceLayer sl = new ServiceLayer();
     CoachListFrame clf;
-    protected Client c;
+    Client c;
+    Coach co;
     /**
      * Creates new form ClientFrame
      * @param c
@@ -24,9 +26,11 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
         initComponents();
         
         this.c = c;
+        this.co = sl.getClientsCoach(c.getClientId());
         this.jLabel5.setText(c.getForname());
         this.jLabel6.setText(c.getSurname());
         this.jLabel7.setText(c.getBirthDate().toString());
+        this.jLabel8.setText(co.getForname() + " " + co.getSurname());
         this.jButton1.setEnabled(false);
         this.changeCoachButton.setEnabled(false);
         
@@ -66,6 +70,8 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
                 break;
             case 11:
                 this.jLabel10.setText("Program assigned");
+                this.jButton1.setEnabled(true);
+                this.jButton1.setText("Read");
                 this.changeCoachButton.setEnabled(true);
                 break;
         }
@@ -132,6 +138,11 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
         });
 
         jButton1.setText("Modify");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,18 +159,19 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
                             .addComponent(jLabel4))
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(27, 27, 27)
-                                .addComponent(changeCoachButton))
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(changeCoachButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10))
-                    .addComponent(jButton1))
+                        .addComponent(jLabel10)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -188,7 +200,7 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(5, 5, 5))
+                .addContainerGap())
         );
 
         pack();
@@ -197,7 +209,6 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
     private void changeCoachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeCoachButtonActionPerformed
         clf = new CoachListFrame(c.getClientId());
         clf.setVisible(true);
-        
         clf.jButton1.addActionListener(this);
     }//GEN-LAST:event_changeCoachButtonActionPerformed
 
@@ -205,6 +216,39 @@ public class ClientFrame extends javax.swing.JFrame implements ActionListener{
         sl.pl.logOff(Util.currPersonOnline);
         DataGateway.close();
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ClientTextFrame ctf;
+        
+        switch(c.getAppstate()){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                ctf = new ClientTextFrame(1);
+                ctf.setVisible(true);
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                ctf = new ClientTextFrame(2);
+                ctf.setVisible(true);
+                break;
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
