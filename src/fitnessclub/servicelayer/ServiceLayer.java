@@ -1,5 +1,6 @@
 package fitnessclub.servicelayer;
 
+import fitnessclub.Util;
 import fitnessclub.datalayer.ApplicationGateway;
 import fitnessclub.entity.Client;
 import fitnessclub.entity.Coach;
@@ -131,7 +132,7 @@ public class ServiceLayer {
         ml.addManager(personid);
     }
     
-    public DefaultListModel<String> parseAllStaff(){
+    public DefaultListModel<String> parseAllStaff(){////////////////////////////////////////////////
         DefaultListModel<String> dlm = new DefaultListModel<>();
         String tmp;
 
@@ -188,8 +189,29 @@ public class ServiceLayer {
         StringTokenizer stkn = new StringTokenizer(str, "\n");
 
         while (stkn.hasMoreTokens()) {
+            stkn.nextToken();
             tmp = stkn.nextToken() + " ";
             stkn.nextToken();
+            tmp = tmp + stkn.nextToken() + " " + stkn.nextToken();
+            dlm.addElement(tmp);
+            stkn.nextToken();
+            stkn.nextToken();
+            stkn.nextToken();
+        }
+        
+        return dlm;
+    }
+    
+    public DefaultListModel<String> parseAllDoctors(){
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        String tmp;
+
+        String str = dl.getAllDoctors();
+        StringTokenizer stkn = new StringTokenizer(str, "\n");
+
+        while (stkn.hasMoreTokens()) {
+            stkn.nextToken();
+            tmp = stkn.nextToken() + " ";
             stkn.nextToken();
             tmp = tmp + stkn.nextToken() + " " + stkn.nextToken();
             dlm.addElement(tmp);
@@ -243,6 +265,9 @@ public class ServiceLayer {
     }
     
     public int checkAppState(int person_id){
+        if(person_id < 1){
+            return -1;
+        }
         
         int tmpclientid = cl.getClientId(person_id);
         
@@ -265,8 +290,8 @@ public class ServiceLayer {
         StringTokenizer stkn = new StringTokenizer(str, "\n");
 
         while (stkn.hasMoreTokens()) {
-            tmp = stkn.nextToken() + " ";
             stkn.nextToken();
+            tmp = stkn.nextToken() + " ";
             stkn.nextToken();
             stkn.nextToken();
             tmp = tmp + stkn.nextToken() + " " + stkn.nextToken();
@@ -289,6 +314,9 @@ public class ServiceLayer {
     
     public void coachAcceptsClientRequest(int person_id){
         col.acceptClientRequest(person_id);
+        
+        int client_id = cl.getClientId(person_id);
+        ag.setAppStateByClient(client_id, 9);
     }
     
     public void coachSendsProgram(String text, int personid){
@@ -322,5 +350,52 @@ public class ServiceLayer {
         }
         
         return c;
+    }
+    
+    public void clientAcceptsContract(int person_id){
+        cl.acceptContract(cl.getClientId(person_id));
+    }
+    
+    public void clientFillsForm(String formText){
+        int client_id = cl.getClientId(Util.currPersonOnline);
+        
+        ag.changeAppText(client_id, formText);
+        ag.setAppStateByClient(client_id, 10);
+    }
+    
+    public void offerContractToClient(int client_id){
+        if(client_id < 1)
+        {
+            return;
+        }
+        
+        ag.setAppStateByClient(client_id, 5);
+    }
+    
+    public void approveClientContract(int client_id){
+        if(client_id < 1)
+        {
+            return;
+        }
+        
+        ag.setAppStateByClient(client_id, 7);
+    }
+    
+    public void addClientToDoctor(int doctor_id, int client_id){
+        if((doctor_id < 1) || (client_id < 1)){
+            return;
+        }
+        
+        dcl.addClientToDoctor(doctor_id, client_id);
+        
+        ag.setAppStateByClient(client_id, 3);
+    }
+    
+    public String getProgramText(int client_id){
+        if(client_id < 1){
+            return "";
+        }
+        
+        return ag.getAppTextByClient(client_id);
     }
 }

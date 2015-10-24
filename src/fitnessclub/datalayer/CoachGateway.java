@@ -30,4 +30,22 @@ public class CoachGateway {
     public void addTextToApp(String text){
         // update
     }
+    
+    public int getCoachIdByPersonId(int personid){
+        if(personid < 1){
+            return -1;
+        }
+        
+        String tmp = DataGateway.request("select id from coach where person_id = " + personid);
+        
+        if(tmp.isEmpty()){
+            return -2;
+        }
+        
+        tmp = tmp.substring(0, tmp.length() - 1);
+        
+        int result = Integer.parseInt(tmp);
+        
+        return result;
+    }
 }

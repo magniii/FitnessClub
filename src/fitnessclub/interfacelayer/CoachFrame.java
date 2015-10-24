@@ -14,17 +14,19 @@ public class CoachFrame extends javax.swing.JFrame {
     ServiceLayer sl = new ServiceLayer();
     String selectedRow;
     Coach coach;
-    /**
-     * Creates new form CoachFrame
-     * @param c
-     */
+
     public CoachFrame(Coach c) {
         initComponents();
-        
+
         this.coach = c;
         this.jLabel2.setText(c.getForname() + " " + c.getSurname());
         this.jButton1.setEnabled(false);
-        this.jList1.setModel(sl.getCoachClients(c.getCoach_id()));
+
+        refreshList();
+    }
+
+    private void refreshList() {
+        this.jList1.setModel(sl.getCoachClients(coach.getCoach_id()));
     }
 
     /**
@@ -42,6 +44,7 @@ public class CoachFrame extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("coach interface");
@@ -77,6 +80,13 @@ public class CoachFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Refresh");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,8 +102,10 @@ public class CoachFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addComponent(jLabel3)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +117,12 @@ public class CoachFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
 
@@ -122,54 +137,58 @@ public class CoachFrame extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         selectedRow = jList1.getModel().getElementAt(jList1.locationToIndex(evt.getPoint())).toString();
         int tmppersonid;
-        
+
         String[] tmpstr = selectedRow.split(" ");
-        if(selectedRow.contains("NEW")){
+        if (selectedRow.contains("NEW")) {
             tmppersonid = Integer.parseInt(tmpstr[1]);
-        }else{
+        } else {
             tmppersonid = Integer.parseInt(tmpstr[0]);
         }
-        
+
         int tmpappstate = sl.checkAppState(tmppersonid);
-        
-        if(tmpappstate == 8){
+
+        if (tmpappstate == 8) {
             jButton1.setEnabled(true);
             jButton1.setText("Accept");
-        }else if(tmpappstate == 10){
+        } else if (tmpappstate == 10) {
             jButton1.setEnabled(true);
             jButton1.setText("Send program");
-        }else{
-            
+        } else {
+
         }
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String[] tmpstr = selectedRow.split(" ");
         int tmppersonid;
-        
-        if(selectedRow.contains("NEW")){
+
+        if (selectedRow.contains("NEW")) {
             tmppersonid = Integer.parseInt(tmpstr[1]);
-        }else{
+        } else {
             tmppersonid = Integer.parseInt(tmpstr[0]);
         }
         int tmpappstate = sl.checkAppState(tmppersonid);
-        
-        if(tmpappstate == 8){
+
+        if (tmpappstate == 8) {
             sl.coachAcceptsClientRequest(Integer.parseInt(tmpstr[1]));
             jList1.setModel(sl.getCoachClients(coach.getCoach_id()));
             jButton1.setEnabled(false);
-        }else if(tmpappstate == 10){
+        } else if (tmpappstate == 10) {
             CoachProgramFrame cpf = new CoachProgramFrame(tmppersonid);
             cpf.setVisible(true);
             jButton1.setEnabled(false);
-        }else{
-            
+        } else {
+
         }
-        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        refreshList();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

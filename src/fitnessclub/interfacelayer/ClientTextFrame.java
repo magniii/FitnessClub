@@ -11,25 +11,30 @@ public class ClientTextFrame extends javax.swing.JFrame {
 
     int mode;
     ServiceLayer sl = new ServiceLayer();
-    
-    public ClientTextFrame(int _mode) { // 1=contract, 2=coach form
+
+    public ClientTextFrame(int _mode) { // 1=contract, 2=coach form, 3=coach program
         initComponents();
-        
+
         mode = _mode;
-        
-        if(mode == 1){
+
+        if (mode == 1) {
             this.jTextArea1.setText(Util.contractText);
             this.setTitle("contract details");
             this.jButton1.setText("Accept");
-        }else if(mode == 2){
+        } else if (mode == 2) {
+            this.setTitle("fill the form");
+            this.jButton1.setText("Send");
+            this.jTextArea1.setEditable(true);
+            this.jTextArea1.setText(Util.formText);
+        } else if (mode == 3) {
             this.setTitle("program details");
             this.jButton1.setText("OK");
             this.jTextArea1.setEditable(false);
-            this.jTextArea1.setText(Util.formText);
-        }else{
+            this.jTextArea1.setText(sl.getProgramText(sl.cl.getClientId(Util.currPersonOnline)));
+        } else {
             this.setVisible(false);
         }
-       
+
     }
 
     /**
@@ -45,7 +50,7 @@ public class ClientTextFrame extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jTextArea1.setEditable(false);
@@ -84,13 +89,14 @@ public class ClientTextFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(mode == 1){
-            //sl.clientAcceptsContract();
+        if (mode == 1) {
+            sl.clientAcceptsContract(Util.currPersonOnline);
             this.setVisible(false);
-        }else if(mode == 2){
+        } else if (mode == 2) {
+            sl.clientFillsForm(jTextArea1.getText());
             this.setVisible(false);
-        }else{
-            
+        } else if (mode == 3){
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

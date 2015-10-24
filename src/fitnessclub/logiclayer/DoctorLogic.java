@@ -62,4 +62,8 @@ public class DoctorLogic {
         
         dg.addDoctor(personid);
     }
+    
+    public int getDoctorId(int personid){
+        return dg.getDoctorIdByPersonId(personid);
+    }
 }

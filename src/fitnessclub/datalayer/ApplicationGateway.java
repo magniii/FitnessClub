@@ -22,15 +22,6 @@ public class ApplicationGateway {
                 client_id + ", " + state_id + ", \'" + crdate.toString() + "\', \'" + text + "\')");
     }
     
-    public String getAppById(int id){
-        if(id < 1){
-            System.out.println("getting application by id error: wrong id");
-            return "";
-        }
-        
-        return DataGateway.request("select * from application join client on client.id = application.client_id and application.id = " + id); //join?
-    }
-    
     public String getAppByClientId(int client_id){
         if(client_id < 1){
             System.out.println("getting application by clientid error: wrong client_id");
@@ -55,7 +46,7 @@ public class ApplicationGateway {
             return;
         }
         
-        if((state_id < 1) && (state_id > 11)){
+        if((state_id < 1) || (state_id > 11)){
             System.out.println("setting application state error: wrong state_id");
             return;
         }

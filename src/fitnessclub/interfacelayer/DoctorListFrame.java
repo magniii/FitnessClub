@@ -6,18 +6,18 @@ import fitnessclub.servicelayer.ServiceLayer;
  *
  * @author magni
  */
-public class CoachListFrame extends javax.swing.JFrame {
+public class DoctorListFrame extends javax.swing.JFrame {
 
     ServiceLayer sl = new ServiceLayer();
-    public String selectedRow = "";
-    private int client_id;
+    public String selectedRow;
+    int client_id;
     
-    public CoachListFrame(int _client_id) {
+    public DoctorListFrame( int _client_id) {
         initComponents();
         
-        this.client_id = _client_id;
+        client_id = _client_id;
+        this.jList1.setModel(sl.parseAllDoctors());
         this.jButton1.setEnabled(false);
-        this.jList1.setModel(sl.parseAllCoaches());
     }
 
     /**
@@ -34,7 +34,7 @@ public class CoachListFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("select coach");
+        setTitle("select doctor");
         setResizable(false);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
@@ -61,45 +61,41 @@ public class CoachListFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1))
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        selectedRow = jList1.getModel().getElementAt(jList1.locationToIndex(evt.getPoint())).toString();
+        jButton1.setEnabled(true);
+    }//GEN-LAST:event_jList1MouseClicked
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String[] tmp = selectedRow.split(" ");
-        int personid = Integer.parseInt(tmp[0]);
-        int coachid = sl.col.getCoachId(personid);
+        int tmppersonid = Integer.parseInt(tmp[0]);
+        int doctor_id = sl.dl.getDoctorId(tmppersonid);
         
-        sl.assignClientToCoach(client_id, coachid);
-        sl.ag.setAppStateByClient(client_id, 8);
-        
+        sl.addClientToDoctor(doctor_id, client_id);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        selectedRow = jList1.getModel().getElementAt(jList1.locationToIndex(evt.getPoint())).toString();
-        
-        if(!selectedRow.isEmpty()){
-            jButton1.setEnabled(true);
-        }else{
-            jButton1.setEnabled(false);
-        }
-    }//GEN-LAST:event_jList1MouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

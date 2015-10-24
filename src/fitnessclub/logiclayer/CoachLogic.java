@@ -34,12 +34,12 @@ public class CoachLogic {
         return c;
     }
     
-    public void acceptClientRequest(int person_id){
-        if(person_id < 1){
+    public void acceptClientRequest(int personid){
+        if(personid < 1){
             return;
         }
         
-        int client_id = cl.getClientId(person_id);
+        int client_id = cl.getClientId(personid);
         
         ag.setAppStateByClient(client_id, 9);
     }
@@ -58,5 +58,13 @@ public class CoachLogic {
     
     public void createClientProgram(String programText){
         
+    }
+    
+    public int getCoachId(int personid){
+        if(personid < 1){
+            return -1;
+        }
+        
+        return cg.getCoachIdByPersonId(personid);
     }
 }

@@ -16,4 +16,12 @@ public class DoctorClientsLogic {
         
         return dcg.getDoctorClients(doctor_id);
     }
+    
+    public void addClientToDoctor(int doctor_id, int client_id){
+        if((doctor_id < 1) || (client_id < 1)){
+            return;
+        }
+        
+        dcg.addClientToDoctor(doctor_id, client_id);
+    }
 }

@@ -4,8 +4,6 @@ import fitnessclub.Util;
 import fitnessclub.datalayer.DataGateway;
 import fitnessclub.entity.Manager;
 import fitnessclub.servicelayer.ServiceLayer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -14,14 +12,20 @@ import java.awt.event.ActionListener;
 public class ManagerFrame extends javax.swing.JFrame{
 
     ServiceLayer sl = new ServiceLayer();
-    /**
-     * Creates new form ManagerFrame
-     * @param m
-     */
+    String selectedRow;
+    int appstate;
+    int clientid;
+
     public ManagerFrame(Manager m) {
         initComponents();
         
         this.jLabel2.setText(m.getForname() + " " + m.getSurname());
+        this.clientDetailsButton.setEnabled(false);
+        
+        refreshLists();
+    }
+    
+    private void refreshLists(){
         this.ClientsList.setModel(sl.parseAllClients());
         this.StaffList.setModel(sl.parseAllStaff());
     }
@@ -46,6 +50,7 @@ public class ManagerFrame extends javax.swing.JFrame{
         clientDetailsButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FitnessClub Manager");
@@ -78,7 +83,7 @@ public class ManagerFrame extends javax.swing.JFrame{
             .addComponent(jScrollPane1)
             .addGroup(staffPanelLayout.createSequentialGroup()
                 .addComponent(newStaffButton)
-                .addGap(0, 116, Short.MAX_VALUE))
+                .addGap(0, 148, Short.MAX_VALUE))
         );
         staffPanelLayout.setVerticalGroup(
             staffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,9 +102,19 @@ public class ManagerFrame extends javax.swing.JFrame{
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        ClientsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ClientsListMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(ClientsList);
 
         clientDetailsButton.setText("Details...");
+        clientDetailsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientDetailsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout clientsPanelLayout = new javax.swing.GroupLayout(clientsPanel);
         clientsPanel.setLayout(clientsPanelLayout);
@@ -107,7 +122,7 @@ public class ManagerFrame extends javax.swing.JFrame{
             clientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clientsPanelLayout.createSequentialGroup()
                 .addComponent(clientDetailsButton)
-                .addGap(0, 120, Short.MAX_VALUE))
+                .addGap(0, 152, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
         );
         clientsPanelLayout.setVerticalGroup(
@@ -126,6 +141,13 @@ public class ManagerFrame extends javax.swing.JFrame{
 
         jLabel2.setText("unknown");
 
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,15 +158,18 @@ public class ManagerFrame extends javax.swing.JFrame{
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2))
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(managerPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -164,12 +189,102 @@ public class ManagerFrame extends javax.swing.JFrame{
         DataGateway.close();
     }//GEN-LAST:event_formWindowClosing
 
+    private void clientDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientDetailsButtonActionPerformed
+        switch(appstate){
+            case 1:
+                DoctorListFrame dlf = new DoctorListFrame(clientid);
+                dlf.setVisible(true);
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 2:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 3:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 4:
+                sl.offerContractToClient(clientid);
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 5:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 6:
+                sl.approveClientContract(clientid);
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 7:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 8:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 9:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 10:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            case 11:
+                this.clientDetailsButton.setEnabled(false);
+                break;
+            default:
+        }
+    }//GEN-LAST:event_clientDetailsButtonActionPerformed
+
+    private void ClientsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientsListMouseClicked
+        selectedRow = ClientsList.getModel().getElementAt(ClientsList.locationToIndex(evt.getPoint())).toString();
+        int tmppersonid;
+        
+        String[] tmpstr = selectedRow.split(" ");
+        tmppersonid = Integer.parseInt(tmpstr[0]);
+        clientid = sl.cl.getClientId(tmppersonid);
+        appstate = sl.checkAppState(tmppersonid);
+        
+        switch(appstate){
+            case 1:
+                clientDetailsButton.setText("Assign doctor");
+                clientDetailsButton.setEnabled(true);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                clientDetailsButton.setText("Offer contract");
+                clientDetailsButton.setEnabled(true);
+                break;
+            case 5:
+                break;
+            case 6:
+                clientDetailsButton.setText("Approve contract");
+                clientDetailsButton.setEnabled(true);
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                break;
+            default:
+        }
+    }//GEN-LAST:event_ClientsListMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        refreshLists();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList ClientsList;
     private javax.swing.JList StaffList;
     private javax.swing.JButton clientDetailsButton;
     private javax.swing.JPanel clientsPanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

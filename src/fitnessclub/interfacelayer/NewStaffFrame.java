@@ -15,10 +15,10 @@ import javax.swing.JOptionPane;
 public class NewStaffFrame extends javax.swing.JFrame {
 
     ServiceLayer sl = new ServiceLayer();
-    
+
     public NewStaffFrame() {
         initComponents();
-        
+
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
@@ -48,14 +48,9 @@ public class NewStaffFrame extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("FitnessClub New Staff");
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         jLabel1.setText("Login");
 
@@ -148,30 +143,26 @@ public class NewStaffFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        sl.pl.logOff(Util.currPersonOnline);
-        DataGateway.close();
-    }//GEN-LAST:event_formWindowClosing
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jTextField1.getText().isEmpty() ||
-                jTextField2.getText().isEmpty() ||
-                jTextField3.getText().isEmpty() ||
-                jTextField4.getText().isEmpty()){
+        if (jTextField1.getText().isEmpty()
+                || jTextField2.getText().isEmpty()
+                || jTextField3.getText().isEmpty()
+                || jTextField4.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Fill all fields!");
+            return;
         }
-        
-        if(jRadioButton1.isSelected()){
+
+        if (jRadioButton1.isSelected()) {
             Manager m = new Manager(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
             sl.createNewManager(m);
-        }else if(jRadioButton2.isSelected()){
+        } else if (jRadioButton2.isSelected()) {
             Coach c = new Coach(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
             sl.createNewCoach(c);
-        }else if(jRadioButton3.isSelected()){
+        } else if (jRadioButton3.isSelected()) {
             Doctor c = new Doctor(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
             sl.createNewDoctor(c);
         }
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
