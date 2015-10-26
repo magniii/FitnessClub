@@ -27,7 +27,6 @@ public class DataGateway {
 
     public static void connect() {
         try {
-            //Создаём подключение к базе данных
             conn = DriverManager.getConnection(strURL, strUser, strPassword);
 
             if (conn == null) {
@@ -42,8 +41,8 @@ public class DataGateway {
         ResultSet rs;
         String temp = "";
         
-        System.out.println("request: " + str);
-        System.out.println("result: ");
+        //System.out.println("request: " + str);
+        //System.out.println("result: ");
 
         try {
             Statement stmt = conn.createStatement();
@@ -60,8 +59,8 @@ public class DataGateway {
                     }
                 }
             }
-            System.out.println(temp);
-            System.out.println("-------------------------");
+            //System.out.println(temp);
+            //System.out.println("-------------------------");
 
             stmt.close();
         } catch (SQLException ex) {
@@ -73,8 +72,8 @@ public class DataGateway {
     
     public static void update(String str) {
         try {
-            System.out.println("update: " + str);
-            System.out.println("-------------------------");
+            //System.out.println("update: " + str);
+            //System.out.println("-------------------------");
             
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(str);
