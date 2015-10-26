@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DoctorLogic.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.logiclayer</a> &gt; <span class="el_source">DoctorLogic.java</span></div><h1>DoctorLogic.java</h1><pre class="source lang-java linenums">package fitnessclub.logiclayer;
+
+import fitnessclub.datalayer.ApplicationGateway;
+import fitnessclub.datalayer.DoctorGateway;
+import fitnessclub.entity.Doctor;
+
+/**
+ *
+ * @author magni
+ */
+<span class="fc" id="L11">public class DoctorLogic {</span>
+<span class="fc" id="L12">    DoctorGateway dg = new DoctorGateway();</span>
+<span class="fc" id="L13">    ClientLogic cl = new ClientLogic();</span>
+<span class="fc" id="L14">    ApplicationGateway ag = new ApplicationGateway();</span>
+    
+    public Doctor authDoctorByPersonId(int personid){
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if(personid &lt; 1){</span>
+<span class="fc" id="L18">            return null;</span>
+        }
+
+<span class="nc" id="L21">        Doctor d = new Doctor();</span>
+<span class="nc" id="L22">        String tmp = dg.getDoctorByPersonId(personid);</span>
+        
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if(tmp.isEmpty()){</span>
+<span class="nc" id="L25">            return null;</span>
+        }
+        
+<span class="nc" id="L28">        String[] tmpfields = tmp.split(&quot;\n&quot;);</span>
+<span class="nc" id="L29">        d.setDoctor_id(Integer.parseInt(tmpfields[0]));</span>
+<span class="nc" id="L30">        d.setId(Integer.parseInt(tmpfields[2]));</span>
+<span class="nc" id="L31">        d.setForname(tmpfields[3]);</span>
+<span class="nc" id="L32">        d.setSurname(tmpfields[4]);</span>
+        
+<span class="nc" id="L34">        return d;</span>
+    }
+    
+    public String getAllDoctors(){
+<span class="fc" id="L38">        return dg.getAllDoctors();</span>
+    }
+    
+    public void checkClient(int personid){
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if(personid &lt; 1){</span>
+<span class="fc" id="L43">            return;</span>
+        }
+        
+<span class="nc" id="L46">        int tmpclientid = cl.getClientId(personid);</span>
+<span class="nc" id="L47">        String tmpstr = ag.getAppStateByClientId(tmpclientid);</span>
+<span class="nc" id="L48">        tmpstr = tmpstr.substring(0, tmpstr.length() - 1);</span>
+<span class="nc" id="L49">        int tmpappstate = Integer.parseInt(tmpstr);</span>
+        
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(tmpappstate == 3){</span>
+<span class="nc" id="L52">            tmpappstate += 1;</span>
+        } 
+        
+<span class="nc" id="L55">        ag.setAppStateByClient(tmpclientid, tmpappstate);</span>
+<span class="nc" id="L56">    }</span>
+    
+    public void addDoctor(int personid){
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if(personid &lt; 1){</span>
+<span class="nc" id="L60">            return;</span>
+        }
+        
+<span class="nc" id="L63">        dg.addDoctor(personid);</span>
+<span class="nc" id="L64">    }</span>
+    
+    public int getDoctorId(int personid){
+<span class="fc" id="L67">        return dg.getDoctorIdByPersonId(personid);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

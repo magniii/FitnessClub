@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DoctorGateway.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.datalayer</a> &gt; <span class="el_source">DoctorGateway.java</span></div><h1>DoctorGateway.java</h1><pre class="source lang-java linenums">package fitnessclub.datalayer;
+
+/**
+ *
+ * @author magni
+ */
+<span class="fc" id="L7">public class DoctorGateway {</span>
+    public String getDoctorByPersonId(int personid){
+<span class="fc bfc" id="L9" title="All 2 branches covered.">        if(personid &lt; 1){</span>
+<span class="fc" id="L10">            System.out.println(&quot;getting doctor by id error: wrong id&quot;);</span>
+<span class="fc" id="L11">            return &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L14">        return DataGateway.request(&quot;select * from doctor join person on person.id = doctor.person_id and person.id = &quot; + personid);</span>
+    }
+    
+    public int getDoctorIdByPersonId(int personid){
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if(personid &lt; 1){</span>
+<span class="fc" id="L19">            return -1;</span>
+        }
+        
+<span class="fc" id="L22">        String tmp = DataGateway.request(&quot;select id from doctor where person_id = &quot; + personid);</span>
+        
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if(tmp.isEmpty()){</span>
+<span class="nc" id="L25">            return -2;</span>
+        }
+        
+<span class="fc" id="L28">        tmp = tmp.substring(0, tmp.length() - 1);</span>
+        
+<span class="fc" id="L30">        int result = Integer.parseInt(tmp);</span>
+        
+<span class="fc" id="L32">        return result;</span>
+    }
+    
+    public String getAllDoctors(){
+<span class="fc" id="L36">        return DataGateway.request(&quot;select * from doctor join person on person.id = doctor.person_id&quot;);</span>
+    }
+    
+    public void addDoctor(int person_id){
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if(person_id &lt; 1){</span>
+<span class="nc" id="L41">            System.out.println(&quot;adding doctor error: wrong person_id&quot;);</span>
+<span class="nc" id="L42">            return;</span>
+        }
+        
+<span class="nc" id="L45">        DataGateway.update(&quot;insert into doctor (person_id) values (&quot; + person_id + &quot;)&quot;);</span>
+<span class="nc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

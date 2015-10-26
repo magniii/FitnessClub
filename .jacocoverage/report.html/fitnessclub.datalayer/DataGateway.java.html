@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataGateway.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.datalayer</a> &gt; <span class="el_source">DataGateway.java</span></div><h1>DataGateway.java</h1><pre class="source lang-java linenums">package fitnessclub.datalayer;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ *
+ * @author magni
+ */
+<span class="nc" id="L13">public class DataGateway {</span>
+<span class="fc" id="L14">    public final static String strDatabasePath = System.getProperty(&quot;user.dir&quot;) + &quot;\\resource\\clubdb.fdb&quot;;</span>
+<span class="fc" id="L15">    public final static String strURL = &quot;jdbc:firebirdsql:localhost:&quot; + strDatabasePath;</span>
+    public final static String strUser = &quot;SYSDBA&quot;;
+    public final static String strPassword = &quot;masterkey&quot;;
+<span class="fc" id="L18">    public static Connection conn = null;</span>
+
+    public static void initdb() {
+        try {
+<span class="fc" id="L22">            Class.forName(&quot;org.firebirdsql.jdbc.FBDriver&quot;).newInstance();</span>
+<span class="nc" id="L23">        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException ex) {</span>
+<span class="nc" id="L24">            System.out.println(&quot;db init error: &quot; + ex);</span>
+<span class="fc" id="L25">        }</span>
+<span class="fc" id="L26">    }</span>
+
+    public static void connect() {
+        try {
+<span class="fc" id="L30">            conn = DriverManager.getConnection(strURL, strUser, strPassword);</span>
+
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            if (conn == null) {</span>
+<span class="nc" id="L33">                System.err.println(&quot;Could not connect to database&quot;);</span>
+            }
+<span class="nc" id="L35">        } catch (SQLException ex) {</span>
+<span class="nc" id="L36">            System.out.println(&quot;db connect error &quot; + ex);</span>
+<span class="fc" id="L37">        }</span>
+<span class="fc" id="L38">    }</span>
+
+    public static String request(String str) {
+        ResultSet rs;
+<span class="fc" id="L42">        String temp = &quot;&quot;;</span>
+        
+        //System.out.println(&quot;request: &quot; + str);
+        //System.out.println(&quot;result: &quot;);
+
+        try {
+<span class="fc" id="L48">            Statement stmt = conn.createStatement();</span>
+
+<span class="fc" id="L50">            rs = stmt.executeQuery(str);</span>
+
+<span class="fc" id="L52">            int nColumnsCount = rs.getMetaData().getColumnCount();</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                for (int n = 1; n &lt; nColumnsCount + 1; n++) {</span>
+<span class="fc" id="L56">                    Object obj = rs.getObject(n);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    if (obj != null) {</span>
+<span class="fc" id="L58">                        temp = temp.concat(obj.toString()).concat(&quot;\n&quot;);</span>
+                    }
+                }
+            }
+            //System.out.println(temp);
+            //System.out.println(&quot;-------------------------&quot;);
+
+<span class="fc" id="L65">            stmt.close();</span>
+<span class="nc" id="L66">        } catch (SQLException ex) {</span>
+<span class="nc" id="L67">            System.out.println(&quot;db request error: &quot; + ex);</span>
+<span class="fc" id="L68">        }</span>
+
+<span class="fc" id="L70">        return temp;</span>
+    }
+    
+    public static void update(String str) {
+        try {
+            //System.out.println(&quot;update: &quot; + str);
+            //System.out.println(&quot;-------------------------&quot;);
+            
+<span class="nc" id="L78">            Statement stmt = conn.createStatement();</span>
+<span class="nc" id="L79">            stmt.executeUpdate(str);</span>
+<span class="nc" id="L80">            stmt.close();</span>
+<span class="nc" id="L81">        } catch (SQLException ex) {</span>
+<span class="nc" id="L82">            System.out.println(&quot;db request error: &quot; + ex);</span>
+<span class="nc" id="L83">        }</span>
+<span class="nc" id="L84">    }</span>
+    
+    public static void close() {
+        try {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            if(conn != null){</span>
+<span class="fc" id="L89">                conn.close();</span>
+            }
+<span class="nc" id="L91">        } catch (SQLException ex) {</span>
+<span class="nc" id="L92">            System.out.println(&quot;closing connection error: &quot; + ex);</span>
+<span class="fc" id="L93">        }</span>
+<span class="fc" id="L94">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

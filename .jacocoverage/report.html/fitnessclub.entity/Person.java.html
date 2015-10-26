@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Person.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.entity</a> &gt; <span class="el_source">Person.java</span></div><h1>Person.java</h1><pre class="source lang-java linenums">package fitnessclub.entity;
+
+/**
+ *
+ * @author magni
+ */
+public class Person {
+    protected int id;
+    protected String forname;
+    protected String surname;
+    protected String login;
+    protected String password;
+
+<span class="nc" id="L14">    public Person(String forname, String surname, String login, String password) {</span>
+<span class="nc" id="L15">        this.forname = forname;</span>
+<span class="nc" id="L16">        this.surname = surname;</span>
+<span class="nc" id="L17">        this.login = login;</span>
+<span class="nc" id="L18">        this.password = password;</span>
+<span class="nc" id="L19">    }</span>
+
+    public int getId() {
+<span class="nc" id="L22">        return id;</span>
+    }
+
+    public void setId(int id) {
+<span class="nc" id="L26">        this.id = id;</span>
+<span class="nc" id="L27">    }</span>
+    
+    public String getForname() {
+<span class="nc" id="L30">        return forname;</span>
+    }
+
+    public void setForname(String forname) {
+<span class="nc" id="L34">        this.forname = forname;</span>
+<span class="nc" id="L35">    }</span>
+
+    public String getSurname() {
+<span class="nc" id="L38">        return surname;</span>
+    }
+
+    public void setSurname(String surname) {
+<span class="nc" id="L42">        this.surname = surname;</span>
+<span class="nc" id="L43">    }</span>
+
+    public String getLogin() {
+<span class="nc" id="L46">        return login;</span>
+    }
+
+    public void setLogin(String login) {
+<span class="nc" id="L50">        this.login = login;</span>
+<span class="nc" id="L51">    }</span>
+
+    public String getPassword() {
+<span class="nc" id="L54">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="nc" id="L58">        this.password = password;</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

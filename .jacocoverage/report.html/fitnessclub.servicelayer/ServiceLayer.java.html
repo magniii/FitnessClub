@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ServiceLayer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.servicelayer</a> &gt; <span class="el_source">ServiceLayer.java</span></div><h1>ServiceLayer.java</h1><pre class="source lang-java linenums">package fitnessclub.servicelayer;
+
+import fitnessclub.Util;
+import fitnessclub.datalayer.ApplicationGateway;
+import fitnessclub.entity.Client;
+import fitnessclub.entity.Coach;
+import fitnessclub.entity.Doctor;
+import fitnessclub.entity.Manager;
+import fitnessclub.logiclayer.ClientLogic;
+import fitnessclub.logiclayer.CoachClientsLogic;
+import fitnessclub.logiclayer.CoachLogic;
+import fitnessclub.logiclayer.DoctorClientsLogic;
+import fitnessclub.logiclayer.DoctorLogic;
+import fitnessclub.logiclayer.ManagerLogic;
+import fitnessclub.logiclayer.PersonLogic;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.StringTokenizer;
+import javax.swing.DefaultListModel;
+
+/**
+ *
+ * @author magni
+ */
+public class ServiceLayer {
+    public PersonLogic pl; 
+    public ClientLogic cl;
+    public DoctorLogic dl;
+    public ManagerLogic ml;
+    public CoachLogic col;
+    public ApplicationGateway ag;
+    public CoachClientsLogic ccl;
+    public DoctorClientsLogic dcl;
+
+<span class="fc" id="L35">    public ServiceLayer() {</span>
+<span class="fc" id="L36">        this.pl = new PersonLogic();</span>
+<span class="fc" id="L37">        this.cl = new ClientLogic();</span>
+<span class="fc" id="L38">        this.col = new CoachLogic();</span>
+<span class="fc" id="L39">        this.ml = new ManagerLogic();</span>
+<span class="fc" id="L40">        this.dl = new DoctorLogic();</span>
+<span class="fc" id="L41">        this.ag = new ApplicationGateway();</span>
+<span class="fc" id="L42">        this.ccl = new CoachClientsLogic();</span>
+<span class="fc" id="L43">        this.dcl = new DoctorClientsLogic();</span>
+<span class="fc" id="L44">    }</span>
+    
+    public Object checkAuth(String login, String password){
+<span class="fc" id="L47">        int personid = pl.authPerson(login, password);</span>
+        
+<span class="pc bpc" id="L49" title="5 of 6 branches missed.">        if((personid == -1) || (personid == -2) || (personid == -3)){</span>
+<span class="fc" id="L50">            return (Integer)personid;</span>
+        }
+        
+<span class="nc" id="L53">        pl.logOn(personid);</span>
+        
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(cl.authClientByPersonId(personid) != null){</span>
+<span class="nc" id="L56">            return cl.authClientByPersonId(personid);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        }else if(col.authCoachByPersonId(personid) != null){</span>
+<span class="nc" id="L58">            return col.authCoachByPersonId(personid);</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        }else if(dl.authDoctorByPersonId(personid) != null){</span>
+<span class="nc" id="L60">            return dl.authDoctorByPersonId(personid);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        }else if(ml.authManagerByPersonId(personid) != null){</span>
+<span class="nc" id="L62">            return ml.authManagerByPersonId(personid);</span>
+        }else{
+<span class="nc" id="L64">            return (Integer)(-2); // no user in db</span>
+        }
+    }
+    
+    public void createNewClient(Client c){
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if(c == null){</span>
+<span class="nc" id="L70">            return;</span>
+        }
+        
+<span class="nc" id="L73">        pl.addPerson(c.getForname(), c.getSurname(), c.getLogin(), c.getPassword());</span>
+        
+<span class="nc" id="L75">        int personid = pl.getPersonIdByLogin(c.getLogin());</span>
+        
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if(personid == -1){</span>
+<span class="nc" id="L78">            return;</span>
+        }
+        
+<span class="nc" id="L81">        cl.addClient(personid, c.getBirthDate());</span>
+<span class="nc" id="L82">        int clientid = cl.getClientId(personid);</span>
+<span class="nc" id="L83">        ag.addApplication(clientid, 1, Date.valueOf(LocalDate.now()), &quot;&quot;);</span>
+        
+<span class="nc" id="L85">    }</span>
+    
+    public void createNewCoach(Coach c){
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if(c == null){</span>
+<span class="nc" id="L89">            return;</span>
+        }
+        
+<span class="nc" id="L92">        pl.addPerson(c.getForname(), c.getSurname(), c.getLogin(), c.getPassword());</span>
+        
+<span class="nc" id="L94">        int personid = pl.getPersonIdByLogin(c.getLogin());</span>
+        
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if(personid == -1){</span>
+<span class="nc" id="L97">            return;</span>
+        }
+        
+<span class="nc" id="L100">        col.addCoach(personid);</span>
+<span class="nc" id="L101">    }</span>
+    
+    public void createNewDoctor(Doctor d){
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if(d == null){</span>
+<span class="nc" id="L105">            return;</span>
+        }
+        
+<span class="nc" id="L108">        pl.addPerson(d.getForname(), d.getSurname(), d.getLogin(), d.getPassword());</span>
+        
+<span class="nc" id="L110">        int personid = pl.getPersonIdByLogin(d.getLogin());</span>
+        
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if(personid == -1){</span>
+<span class="nc" id="L113">            return;</span>
+        }
+        
+<span class="nc" id="L116">        dl.addDoctor(personid);</span>
+<span class="nc" id="L117">    } </span>
+    
+    public void createNewManager(Manager m){
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(m == null){</span>
+<span class="nc" id="L121">            return;</span>
+        }
+        
+<span class="nc" id="L124">        pl.addPerson(m.getForname(), m.getSurname(), m.getLogin(), m.getPassword());</span>
+        
+<span class="nc" id="L126">        int personid = pl.getPersonIdByLogin(m.getLogin());</span>
+        
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if(personid == -1){</span>
+<span class="nc" id="L129">            return;</span>
+        }
+        
+<span class="nc" id="L132">        ml.addManager(personid);</span>
+<span class="nc" id="L133">    }</span>
+    
+    public DefaultListModel&lt;String&gt; parseAllStaff(){////////////////////////////////////////////////
+<span class="nc" id="L136">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="nc" id="L139">        String str = col.getAllCoaches();</span>
+<span class="nc" id="L140">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L143">            tmp = &quot;Coach: &quot; + stkn.nextToken() + &quot; &quot;;</span>
+<span class="nc" id="L144">            stkn.nextToken();</span>
+<span class="nc" id="L145">            stkn.nextToken();</span>
+<span class="nc" id="L146">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L147">            dlm.addElement(tmp);</span>
+<span class="nc" id="L148">            stkn.nextToken();</span>
+<span class="nc" id="L149">            stkn.nextToken();</span>
+<span class="nc" id="L150">            stkn.nextToken();</span>
+        }
+
+<span class="nc" id="L153">        str = dl.getAllDoctors();</span>
+<span class="nc" id="L154">        stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L157">            tmp = &quot;Doctor: &quot; + stkn.nextToken() + &quot; &quot;;</span>
+<span class="nc" id="L158">            stkn.nextToken();</span>
+<span class="nc" id="L159">            stkn.nextToken();</span>
+<span class="nc" id="L160">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L161">            dlm.addElement(tmp);</span>
+<span class="nc" id="L162">            stkn.nextToken();</span>
+<span class="nc" id="L163">            stkn.nextToken();</span>
+<span class="nc" id="L164">            stkn.nextToken();</span>
+        }
+        
+<span class="nc" id="L167">        str = ml.getAllManagers();</span>
+<span class="nc" id="L168">        stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L171">            tmp = &quot;Manager: &quot; + stkn.nextToken() + &quot; &quot;;</span>
+<span class="nc" id="L172">            stkn.nextToken();</span>
+<span class="nc" id="L173">            stkn.nextToken();</span>
+<span class="nc" id="L174">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L175">            dlm.addElement(tmp);</span>
+<span class="nc" id="L176">            stkn.nextToken();</span>
+<span class="nc" id="L177">            stkn.nextToken();</span>
+<span class="nc" id="L178">            stkn.nextToken();</span>
+        }
+        
+<span class="nc" id="L181">        return dlm;</span>
+    }
+    
+    public DefaultListModel&lt;String&gt; parseAllCoaches(){
+<span class="nc" id="L185">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="nc" id="L188">        String str = col.getAllCoaches();</span>
+<span class="nc" id="L189">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L192">            stkn.nextToken();</span>
+<span class="nc" id="L193">            tmp = stkn.nextToken() + &quot; &quot;;</span>
+<span class="nc" id="L194">            stkn.nextToken();</span>
+<span class="nc" id="L195">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L196">            dlm.addElement(tmp);</span>
+<span class="nc" id="L197">            stkn.nextToken();</span>
+<span class="nc" id="L198">            stkn.nextToken();</span>
+<span class="nc" id="L199">            stkn.nextToken();</span>
+        }
+        
+<span class="nc" id="L202">        return dlm;</span>
+    }
+    
+    public DefaultListModel&lt;String&gt; parseAllDoctors(){
+<span class="nc" id="L206">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="nc" id="L209">        String str = dl.getAllDoctors();</span>
+<span class="nc" id="L210">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L213">            stkn.nextToken();</span>
+<span class="nc" id="L214">            tmp = stkn.nextToken() + &quot; &quot;;</span>
+<span class="nc" id="L215">            stkn.nextToken();</span>
+<span class="nc" id="L216">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L217">            dlm.addElement(tmp);</span>
+<span class="nc" id="L218">            stkn.nextToken();</span>
+<span class="nc" id="L219">            stkn.nextToken();</span>
+<span class="nc" id="L220">            stkn.nextToken();</span>
+        }
+        
+<span class="nc" id="L223">        return dlm;</span>
+    }
+    
+    public DefaultListModel&lt;String&gt; getCoachClients(int coach_id){
+<span class="nc" id="L227">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="nc" id="L230">        String str = ccl.getCoachClients(coach_id);</span>
+<span class="nc" id="L231">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L234">            tmp = stkn.nextToken(); //person_id to string</span>
+            
+<span class="nc" id="L236">            int tmppersonid = Integer.parseInt(tmp);</span>
+<span class="nc" id="L237">            int tmpclientid = cl.getClientId(tmppersonid);</span>
+<span class="nc" id="L238">            String tmpstr = ag.getAppStateByClientId(tmpclientid);</span>
+<span class="nc" id="L239">            tmpstr = tmpstr.substring(0, tmpstr.length() - 1);</span>
+<span class="nc" id="L240">            int tmpappstate = Integer.parseInt(tmpstr);</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">            if(tmpappstate == 8){</span>
+<span class="nc" id="L242">                tmp = &quot;NEW &quot; + tmp;</span>
+            }
+            
+<span class="nc" id="L245">            tmp = tmp + &quot; &quot; + stkn.nextToken() + &quot; &quot; + stkn.nextToken(); // + name + surname to string</span>
+<span class="nc" id="L246">            dlm.addElement(tmp);</span>
+<span class="nc" id="L247">        }</span>
+        
+<span class="nc" id="L249">        return dlm;</span>
+    }
+    
+    public DefaultListModel&lt;String&gt; getDoctorClients(int doctor_id){
+<span class="nc" id="L253">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="nc" id="L256">        String str = dcl.getDoctorClients(doctor_id);</span>
+<span class="nc" id="L257">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        while (stkn.hasMoreTokens()) {</span>
+<span class="nc" id="L260">            tmp = stkn.nextToken() + &quot; &quot; + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="nc" id="L261">            dlm.addElement(tmp);</span>
+        }
+        
+<span class="nc" id="L264">        return dlm;</span>
+    }
+    
+    public int checkAppState(int person_id){
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">        if(person_id &lt; 1){</span>
+<span class="nc" id="L269">            return -1;</span>
+        }
+        
+<span class="fc" id="L272">        int tmpclientid = cl.getClientId(person_id);</span>
+        
+<span class="fc" id="L274">        String tmpstr = ag.getAppStateByClientId(tmpclientid);</span>
+<span class="fc" id="L275">        tmpstr = tmpstr.substring(0, tmpstr.length() - 1);</span>
+<span class="fc" id="L276">        int tmpappstate = Integer.parseInt(tmpstr);</span>
+        
+<span class="fc" id="L278">        return tmpappstate;</span>
+    }
+    
+    public void doctorCheckedClient(int person_id){
+<span class="fc" id="L282">        dl.checkClient(person_id);</span>
+<span class="fc" id="L283">    }</span>
+    
+    public DefaultListModel&lt;String&gt; parseAllClients() {
+<span class="fc" id="L286">        DefaultListModel&lt;String&gt; dlm = new DefaultListModel&lt;&gt;();</span>
+        String tmp;
+
+<span class="fc" id="L289">        String str = cl.getAllClients();</span>
+<span class="fc" id="L290">        StringTokenizer stkn = new StringTokenizer(str, &quot;\n&quot;);</span>
+
+<span class="fc bfc" id="L292" title="All 2 branches covered.">        while (stkn.hasMoreTokens()) {</span>
+<span class="fc" id="L293">            stkn.nextToken();</span>
+<span class="fc" id="L294">            tmp = stkn.nextToken() + &quot; &quot;;</span>
+<span class="fc" id="L295">            stkn.nextToken();</span>
+<span class="fc" id="L296">            stkn.nextToken();</span>
+<span class="fc" id="L297">            tmp = tmp + stkn.nextToken() + &quot; &quot; + stkn.nextToken();</span>
+<span class="fc" id="L298">            dlm.addElement(tmp);</span>
+<span class="fc" id="L299">            stkn.nextToken();</span>
+<span class="fc" id="L300">            stkn.nextToken();</span>
+<span class="fc" id="L301">            stkn.nextToken();</span>
+        }
+
+<span class="fc" id="L304">        return dlm;</span>
+    }
+    
+    public void assignClientToCoach(int client_id, int coach_id){
+<span class="pc bpc" id="L308" title="3 of 4 branches missed.">        if((client_id &lt; 1) || (coach_id &lt; 1)){</span>
+<span class="fc" id="L309">            return;</span>
+        }
+        
+<span class="nc" id="L312">        ccl.assignClientToCoach(client_id, coach_id);</span>
+<span class="nc" id="L313">    }</span>
+    
+    public void coachAcceptsClientRequest(int person_id){
+<span class="fc" id="L316">        col.acceptClientRequest(person_id);</span>
+        
+<span class="fc" id="L318">        int client_id = cl.getClientId(person_id);</span>
+<span class="fc" id="L319">        ag.setAppStateByClient(client_id, 9);</span>
+<span class="fc" id="L320">    }</span>
+    
+    public void coachSendsProgram(String text, int personid){
+<span class="pc bpc" id="L323" title="3 of 4 branches missed.">        if(text.isEmpty() || (personid &lt; 1)){</span>
+<span class="fc" id="L324">            return;</span>
+        }
+        
+<span class="nc" id="L327">        int tmpclientid = cl.getClientId(personid);</span>
+        
+<span class="nc" id="L329">        ag.setAppStateByClient(tmpclientid, 11);</span>
+<span class="nc" id="L330">        ag.changeAppText(tmpclientid, text);</span>
+<span class="nc" id="L331">    }</span>
+    
+    public Coach getClientsCoach(int client_id){
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L335">            return null;</span>
+        }
+        
+<span class="nc" id="L338">        String tmp = ccl.getClientsCoach(client_id);</span>
+        
+<span class="nc" id="L340">        Coach c = new Coach();</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">        if(!tmp.isEmpty()){</span>
+<span class="nc" id="L342">            String[] tmpsplit = tmp.split(&quot;\n&quot;);</span>
+            
+<span class="nc" id="L344">            c.setId(Integer.parseInt(tmpsplit[0]));</span>
+<span class="nc" id="L345">            c.setForname(tmpsplit[1]);</span>
+<span class="nc" id="L346">            c.setSurname(tmpsplit[2]);</span>
+<span class="nc" id="L347">        }else{</span>
+<span class="nc" id="L348">            c.setForname(&quot;No&quot;);</span>
+<span class="nc" id="L349">            c.setSurname(&quot;Coach&quot;);</span>
+        }
+        
+<span class="nc" id="L352">        return c;</span>
+    }
+    
+    public void clientAcceptsContract(int person_id){
+<span class="fc" id="L356">        cl.acceptContract(cl.getClientId(person_id));</span>
+<span class="fc" id="L357">    }</span>
+    
+    public void clientFillsForm(String formText){
+<span class="fc" id="L360">        int client_id = cl.getClientId(Util.currPersonOnline);</span>
+        
+<span class="fc" id="L362">        ag.changeAppText(client_id, formText);</span>
+<span class="fc" id="L363">        ag.setAppStateByClient(client_id, 10);</span>
+<span class="fc" id="L364">    }</span>
+    
+    public void offerContractToClient(int client_id){
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">        if(client_id &lt; 1)</span>
+        {
+<span class="fc" id="L369">            return;</span>
+        }
+        
+<span class="nc" id="L372">        ag.setAppStateByClient(client_id, 5);</span>
+<span class="nc" id="L373">    }</span>
+    
+    public void approveClientContract(int client_id){
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">        if(client_id &lt; 1)</span>
+        {
+<span class="fc" id="L378">            return;</span>
+        }
+        
+<span class="nc" id="L381">        ag.setAppStateByClient(client_id, 7);</span>
+<span class="nc" id="L382">    }</span>
+    
+    public void addClientToDoctor(int doctor_id, int client_id){
+<span class="pc bpc" id="L385" title="3 of 4 branches missed.">        if((doctor_id &lt; 1) || (client_id &lt; 1)){</span>
+<span class="fc" id="L386">            return;</span>
+        }
+        
+<span class="nc" id="L389">        dcl.addClientToDoctor(doctor_id, client_id);</span>
+        
+<span class="nc" id="L391">        ag.setAppStateByClient(client_id, 3);</span>
+<span class="nc" id="L392">    }</span>
+    
+    public String getProgramText(int client_id){
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L396">            return &quot;&quot;;</span>
+        }
+        
+<span class="nc" id="L399">        return ag.getAppTextByClient(client_id);</span>
+    }
+    
+    public void clientChangesCoach(int client_id, int coach_id){
+<span class="pc bpc" id="L403" title="3 of 4 branches missed.">        if((coach_id &lt; 1) || (client_id &lt; 1)){</span>
+<span class="fc" id="L404">            return;</span>
+        }
+        
+<span class="nc" id="L407">        ccl.deleteClientFromCoach(client_id);</span>
+<span class="nc" id="L408">        ccl.assignClientToCoach(client_id, coach_id);</span>
+<span class="nc" id="L409">        ag.setAppStateByClient(client_id, 8);</span>
+<span class="nc" id="L410">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

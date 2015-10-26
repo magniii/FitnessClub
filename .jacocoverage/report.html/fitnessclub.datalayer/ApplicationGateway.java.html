@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ApplicationGateway.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FitnessClub&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fitnessclub.datalayer</a> &gt; <span class="el_source">ApplicationGateway.java</span></div><h1>ApplicationGateway.java</h1><pre class="source lang-java linenums">package fitnessclub.datalayer;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author magni
+ */
+<span class="fc" id="L9">public class ApplicationGateway {</span>
+    public void addApplication(int client_id, int state_id, Date crdate, String text){
+<span class="nc bnc" id="L11" title="All 2 branches missed.">        if(client_id &lt; 1){</span>
+<span class="nc" id="L12">            System.out.println(&quot;adding application error: wrong client_id&quot;);</span>
+<span class="nc" id="L13">            return;</span>
+        }
+        
+<span class="nc bnc" id="L16" title="All 4 branches missed.">        if((state_id &lt; 1) &amp;&amp; (state_id &gt; 11)){</span>
+<span class="nc" id="L17">            System.out.println(&quot;adding application error: wrong state_id&quot;);</span>
+<span class="nc" id="L18">            return;</span>
+        }
+        
+<span class="nc" id="L21">        DataGateway.update(&quot;insert into application (client_id, state_id, creation_date, text) values (&quot; + </span>
+<span class="nc" id="L22">                client_id + &quot;, &quot; + state_id + &quot;, \'&quot; + crdate.toString() + &quot;\', \'&quot; + text + &quot;\')&quot;);</span>
+<span class="nc" id="L23">    }</span>
+    
+    public String getAppByClientId(int client_id){
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L27">            System.out.println(&quot;getting application by clientid error: wrong client_id&quot;);</span>
+<span class="fc" id="L28">            return &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L31">        return DataGateway.request(&quot;select * from application join client on client.id = application.client_id and application.client_id = &quot; + client_id);</span>
+    }
+    
+    public String getAppStateByClientId(int client_id){
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L36">            System.out.println(&quot;getting application by clientid error: wrong client_id&quot;);</span>
+<span class="fc" id="L37">            return &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L40">        return DataGateway.request(&quot;select state_id from application join client on client.id = application.client_id and application.client_id = &quot; + client_id);</span>
+    }
+    
+    public void setAppStateByClient(int client_id, int state_id){
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L45">            System.out.println(&quot;setting application state error: wrong client_id&quot;);</span>
+<span class="fc" id="L46">            return;</span>
+        }
+        
+<span class="nc bnc" id="L49" title="All 4 branches missed.">        if((state_id &lt; 1) || (state_id &gt; 11)){</span>
+<span class="nc" id="L50">            System.out.println(&quot;setting application state error: wrong state_id&quot;);</span>
+<span class="nc" id="L51">            return;</span>
+        }
+        
+<span class="nc" id="L54">        DataGateway.update(&quot;update application set state_id = &quot; + state_id + &quot; where client_id = &quot; + client_id);</span>
+<span class="nc" id="L55">    }</span>
+    
+    public String getAppTextByClient(int client_id){
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L59">            System.out.println(&quot;getting application text error: wrong client_id&quot;);</span>
+<span class="fc" id="L60">            return &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L63">        return DataGateway.request(&quot;select text from application where client_id = &quot; + client_id);</span>
+    }
+    
+    public void changeAppText(int client_id, String app_text){
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if(client_id &lt; 1){</span>
+<span class="fc" id="L68">            System.out.println(&quot;changing application text error: wrong client_id&quot;);</span>
+<span class="fc" id="L69">            return;</span>
+        }
+        
+<span class="nc" id="L72">        DataGateway.update(&quot;update application set text = \'&quot; + app_text + &quot;\' where client_id = &quot; + client_id);</span>
+<span class="nc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
