@@ -82,8 +82,7 @@ public class CoachListFrame extends javax.swing.JFrame {
         int personid = Integer.parseInt(tmp[0]);
         int coachid = sl.col.getCoachId(personid);
         
-        sl.assignClientToCoach(client_id, coachid);
-        sl.ag.setAppStateByClient(client_id, 8);
+        sl.clientChangesCoach(client_id, coachid);
         
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -398,4 +398,14 @@ public class ServiceLayer {
         
         return ag.getAppTextByClient(client_id);
     }
+    
+    public void clientChangesCoach(int client_id, int coach_id){
+        if((coach_id < 1) || (client_id < 1)){
+            return;
+        }
+        
+        ccl.deleteClientFromCoach(client_id);
+        ccl.assignClientToCoach(client_id, coach_id);
+        ag.setAppStateByClient(client_id, 8);
+    }
 }

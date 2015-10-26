@@ -3,13 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/interfacelayer/ManagerFrame.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/logiclayer/CoachLogic.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/servicelayer/ServiceLayer.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/logiclayer/ClientLogic.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/ClientGateway.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/datalayer/CoachGateway.java</file>
-            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/interfacelayer/CoachListFrame.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/src/fitnessclub/FitnessClub.java</file>
+            <file>file:/D:/student/progr_arch/git/FitnessClub/test/fitnessclub/logiclayer/ClientLogicTest.java</file>
         </group>
     </open-files>
 </project-private>

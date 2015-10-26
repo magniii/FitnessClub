@@ -5,8 +5,6 @@ import fitnessclub.datalayer.DataGateway;
 import fitnessclub.entity.Client;
 import fitnessclub.entity.Coach;
 import fitnessclub.servicelayer.ServiceLayer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -14,6 +12,7 @@ import java.awt.event.ActionListener;
  */
 public class ClientFrame extends javax.swing.JFrame{
 
+    ClientTextFrame ctf = new ClientTextFrame();
     ServiceLayer sl = new ServiceLayer();
     CoachListFrame clf;
     Client c;
@@ -34,6 +33,7 @@ public class ClientFrame extends javax.swing.JFrame{
         this.jLabel8.setText(co.getForname() + " " + co.getSurname());
         this.jButton1.setEnabled(false);
         this.changeCoachButton.setEnabled(false);
+        this.ctf.setVisible(false);
 
         refreshData();
     }
@@ -101,7 +101,8 @@ public class ClientFrame extends javax.swing.JFrame{
         }
         
         if(clf != null){
-            jLabel8.setText(clf.selectedRow.substring(clf.selectedRow.indexOf(" "), clf.selectedRow.length()));
+            String[] tmpstr = sl.ccl.getClientsCoach(c.getClientId()).split("\n");
+            jLabel8.setText(tmpstr[1] + " " + tmpstr[2]);
         }
     }
 
@@ -244,9 +245,8 @@ public class ClientFrame extends javax.swing.JFrame{
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ClientTextFrame ctf;
-
-        switch (c.getAppstate()) {
+        
+        switch (sl.checkAppState(Util.currPersonOnline)) {
             case 1:
                 break;
             case 2:
@@ -256,7 +256,7 @@ public class ClientFrame extends javax.swing.JFrame{
             case 4:
                 break;
             case 5:
-                ctf = new ClientTextFrame(1);
+                ctf.setMode(1);
                 ctf.setVisible(true);
                 jButton1.setEnabled(false);
                 break;
@@ -267,14 +267,14 @@ public class ClientFrame extends javax.swing.JFrame{
             case 8:
                 break;
             case 9:
-                ctf = new ClientTextFrame(2);
+                ctf.setMode(2);
                 ctf.setVisible(true);
                 jButton1.setEnabled(false);
                 break;
             case 10:
                 break;
             case 11:
-                ctf = new ClientTextFrame(3);
+                ctf.setMode(3);                
                 ctf.setVisible(true);
                 break;
         }

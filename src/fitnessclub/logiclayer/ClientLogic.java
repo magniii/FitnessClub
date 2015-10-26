@@ -87,10 +87,18 @@ public class ClientLogic {
     }
     
     public void addClient(int person_id, Date birthdate){
+        if(person_id < 1){
+            return;
+        }
+        
         cg.addClient(person_id, birthdate);
     }
     
     public int getClientId(int personid){
+        if(personid < 1){
+            return -1;
+        }
+        
         return cg.getClientIdByPersonId(personid);
     }
 }

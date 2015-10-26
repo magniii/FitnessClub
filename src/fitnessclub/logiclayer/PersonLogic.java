@@ -11,15 +11,27 @@ public class PersonLogic {
     PersonGateway pg = new PersonGateway();
     
     public int authPerson(String login, String password){
+        if(login.isEmpty() || password.isEmpty()){
+            return -1;
+        }
+        
         return pg.authPerson(login, password);
     }
     
     public void logOn(int personid){
+        if(personid < 1){
+            return;
+        }
+        
         pg.setOnline(personid, true);
         Util.currPersonOnline = personid;
     }
     
     public void logOff(int personid){
+        if(personid < 1){
+            return;
+        }
+        
         pg.setOnline(personid, false);
         Util.currPersonOnline = 0;
     }

@@ -9,14 +9,16 @@ import fitnessclub.servicelayer.ServiceLayer;
  */
 public class ClientTextFrame extends javax.swing.JFrame {
 
-    int mode;
     ServiceLayer sl = new ServiceLayer();
+    int mode;
 
-    public ClientTextFrame(int _mode) { // 1=contract, 2=coach form, 3=coach program
+    public ClientTextFrame() { // 1=contract, 2=coach form, 3=coach program
         initComponents();
-
-        mode = _mode;
-
+    }
+    
+    public void setMode(int mode){
+        this.mode = mode;
+        
         if (mode == 1) {
             this.jTextArea1.setText(Util.contractText);
             this.setTitle("contract details");
@@ -34,7 +36,6 @@ public class ClientTextFrame extends javax.swing.JFrame {
         } else {
             this.setVisible(false);
         }
-
     }
 
     /**

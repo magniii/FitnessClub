@@ -13,12 +13,12 @@ public class CoachClientsGateway {
         DataGateway.update("insert into coachclients (client_id, coach_id) values (" + client_id + ", " + coach_id + ")");
     }
     
-    public void deleteClientFromCoach(int client_id, int coach_id){
-        if((client_id < 1) || (coach_id < 1)){
+    public void deleteClientFromCoach(int client_id){
+        if(client_id < 1){
             return;
         }
         
-        DataGateway.update("delete * from coachclients where client_id = " + client_id + " and coach_id = " + coach_id);
+        DataGateway.update("delete from coachclients where client_id = " + client_id);
     }
     
     public String getCoachClients(int coach_id){
