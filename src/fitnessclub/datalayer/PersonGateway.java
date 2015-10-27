@@ -8,7 +8,6 @@ public class PersonGateway {
 
     public String getPersonById(int id) {
         if (id < 1) {
-            System.out.println("getting person error: wrong id");
             return "";
         }
 
@@ -39,7 +38,6 @@ public class PersonGateway {
         String tmp = DataGateway.request("select online from person where id = " + personid);
         
         if(tmp.isEmpty()){
-            System.out.println("checking online status error: no such person");
             return -2;
         }
         

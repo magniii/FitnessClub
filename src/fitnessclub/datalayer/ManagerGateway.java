@@ -11,7 +11,6 @@ public class ManagerGateway {
     
     public String getManagerByPersonId(int personid){
         if(personid < 1){
-            System.out.println("getting manager by id error: wrong id");
             return "";
         }
         

@@ -132,7 +132,7 @@ public class ServiceLayer {
         ml.addManager(personid);
     }
     
-    public DefaultListModel<String> parseAllStaff(){////////////////////////////////////////////////
+    public DefaultListModel<String> parseAllStaff(){
         DefaultListModel<String> dlm = new DefaultListModel<>();
         String tmp;
 
@@ -140,8 +140,8 @@ public class ServiceLayer {
         StringTokenizer stkn = new StringTokenizer(str, "\n");
 
         while (stkn.hasMoreTokens()) {
-            tmp = "Coach: " + stkn.nextToken() + " ";
             stkn.nextToken();
+            tmp = "Coach: " + stkn.nextToken() + " ";
             stkn.nextToken();
             tmp = tmp + stkn.nextToken() + " " + stkn.nextToken();
             dlm.addElement(tmp);

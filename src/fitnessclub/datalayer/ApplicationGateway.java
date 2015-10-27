@@ -9,12 +9,10 @@ import java.sql.Date;
 public class ApplicationGateway {
     public void addApplication(int client_id, int state_id, Date crdate, String text){
         if(client_id < 1){
-            System.out.println("adding application error: wrong client_id");
             return;
         }
         
         if((state_id < 1) && (state_id > 11)){
-            System.out.println("adding application error: wrong state_id");
             return;
         }
         
@@ -24,7 +22,6 @@ public class ApplicationGateway {
     
     public String getAppByClientId(int client_id){
         if(client_id < 1){
-            System.out.println("getting application by clientid error: wrong client_id");
             return "";
         }
         
@@ -33,7 +30,6 @@ public class ApplicationGateway {
     
     public String getAppStateByClientId(int client_id){
         if(client_id < 1){
-            System.out.println("getting application by clientid error: wrong client_id");
             return "";
         }
         
@@ -42,12 +38,10 @@ public class ApplicationGateway {
     
     public void setAppStateByClient(int client_id, int state_id){
         if(client_id < 1){
-            System.out.println("setting application state error: wrong client_id");
             return;
         }
         
         if((state_id < 1) || (state_id > 11)){
-            System.out.println("setting application state error: wrong state_id");
             return;
         }
         
@@ -56,7 +50,6 @@ public class ApplicationGateway {
     
     public String getAppTextByClient(int client_id){
         if(client_id < 1){
-            System.out.println("getting application text error: wrong client_id");
             return "";
         }
         
@@ -65,7 +58,6 @@ public class ApplicationGateway {
     
     public void changeAppText(int client_id, String app_text){
         if(client_id < 1){
-            System.out.println("changing application text error: wrong client_id");
             return;
         }
         

@@ -7,7 +7,6 @@ package fitnessclub.datalayer;
 public class CoachGateway {
     public String getCoachByPersonId(int personid){
         if(personid < 1){
-            System.out.println("getting coach by id error: wrong id");
             return "";
         }
         
@@ -20,15 +19,10 @@ public class CoachGateway {
     
     public void addCoach(int person_id){
         if(person_id < 1){
-            System.out.println("adding client error: wrong id");
             return;
         }
         
         DataGateway.update("insert into coach (person_id) values (" + person_id + ")");
-    }
-    
-    public void addTextToApp(String text){
-        // update
     }
     
     public int getCoachIdByPersonId(int personid){

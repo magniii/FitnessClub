@@ -7,7 +7,6 @@ package fitnessclub.datalayer;
 public class DoctorGateway {
     public String getDoctorByPersonId(int personid){
         if(personid < 1){
-            System.out.println("getting doctor by id error: wrong id");
             return "";
         }
         
@@ -38,7 +37,6 @@ public class DoctorGateway {
     
     public void addDoctor(int person_id){
         if(person_id < 1){
-            System.out.println("adding doctor error: wrong person_id");
             return;
         }
         

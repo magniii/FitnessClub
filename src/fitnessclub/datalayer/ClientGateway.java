@@ -9,7 +9,6 @@ import java.sql.Date;
 public class ClientGateway {
     public String getClientByPersonId(int personid){
         if(personid < 1){
-            //System.out.println("getting client by id error: wrong id");
             return "";
         }
         
@@ -22,7 +21,6 @@ public class ClientGateway {
     
     public int getClientIdByPersonId(int personid){
         if(personid < 1){
-            //System.out.println("getting client id by person id error: wrong person id");
             return -1;
         }
         
@@ -41,7 +39,6 @@ public class ClientGateway {
     
     public void addClient(int person_id, Date birthdate){
         if(person_id < 1){
-            //System.out.println("adding client error: wrong id");
             return;
         }
         
