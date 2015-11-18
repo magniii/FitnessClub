@@ -124,20 +124,15 @@ public class NewClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() ||
-           jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty()){
-            JOptionPane.showMessageDialog(rootPane, "Wrong parameters");
+
+        int tmp = sl.createNewClient(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText());
+        if(tmp == -1){
+            JOptionPane.showMessageDialog(rootPane, "Fill all fields");
+        }else if(tmp == -2){
+            JOptionPane.showMessageDialog(rootPane, "User already exists");
+        }else{
+            this.setVisible(false);
         }
-        
-        Client c = new Client(jTextField1.getText(),
-                jTextField2.getText(),
-                jTextField3.getText(),
-                jTextField4.getText());
-        c.setBirthDate(Date.valueOf(LocalDate.now()));
-        
-        sl.createNewClient(c);
-        
-        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

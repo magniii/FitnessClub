@@ -144,26 +144,23 @@ public class NewStaffFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jTextField1.getText().isEmpty()
-                || jTextField2.getText().isEmpty()
-                || jTextField3.getText().isEmpty()
-                || jTextField4.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Fill all fields!");
-            return;
-        }
-
+        int tmp = 0;
+        
         if (jRadioButton1.isSelected()) {
-            Manager m = new Manager(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
-            sl.createNewManager(m);
+            tmp = sl.createNewManager(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
         } else if (jRadioButton2.isSelected()) {
-            Coach c = new Coach(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
-            sl.createNewCoach(c);
+            tmp = sl.createNewCoach(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
         } else if (jRadioButton3.isSelected()) {
-            Doctor c = new Doctor(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
-            sl.createNewDoctor(c);
+            tmp = sl.createNewDoctor(jTextField3.getText(), jTextField4.getText(), jTextField1.getText(), jTextField2.getText());
         }
 
-        this.setVisible(false);
+        if(tmp == -1){
+            JOptionPane.showMessageDialog(rootPane, "Fill all fields");
+        }else if(tmp == -2){
+            JOptionPane.showMessageDialog(rootPane, "User already exists");
+        }else{
+            this.setVisible(false);
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

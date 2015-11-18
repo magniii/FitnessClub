@@ -65,71 +65,93 @@ public class ServiceLayer {
         }
     }
     
-    public void createNewClient(Client c){
-        if(c == null){
-            return;
+    public int createNewClient(String forname, String surname, String login, String password){
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return -1;
         }
         
-        pl.addPerson(c.getForname(), c.getSurname(), c.getLogin(), c.getPassword());
+        if(pl.getPersonIdByLogin(login) > 0){
+            return -2;
+        }
         
-        int personid = pl.getPersonIdByLogin(c.getLogin());
+        pl.addPerson(forname, surname, login, password);
         
+        int personid = pl.getPersonIdByLogin(login);
         if(personid == -1){
-            return;
+            return -1;
         }
         
-        cl.addClient(personid, c.getBirthDate());
+        cl.addClient(personid, Date.valueOf(LocalDate.now()));
         int clientid = cl.getClientId(personid);
         ag.addApplication(clientid, 1, Date.valueOf(LocalDate.now()), "");
         
+        return 0;
     }
     
-    public void createNewCoach(Coach c){
-        if(c == null){
-            return;
+    public int createNewCoach(String forname, String surname, String login, String password){
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return -1;
         }
         
-        pl.addPerson(c.getForname(), c.getSurname(), c.getLogin(), c.getPassword());
+        if(pl.getPersonIdByLogin(login) > 0){
+            return -2;
+        }
         
-        int personid = pl.getPersonIdByLogin(c.getLogin());
+        pl.addPerson(forname, surname, login, password);
+        
+        int personid = pl.getPersonIdByLogin(login);
         
         if(personid == -1){
-            return;
+            return -1;
         }
         
         col.addCoach(personid);
+        
+        return 0;
     }
     
-    public void createNewDoctor(Doctor d){
-        if(d == null){
-            return;
+    public int createNewDoctor(String forname, String surname, String login, String password){
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return -1;
         }
         
-        pl.addPerson(d.getForname(), d.getSurname(), d.getLogin(), d.getPassword());
+        if(pl.getPersonIdByLogin(login) > 0){
+            return -2;
+        }
         
-        int personid = pl.getPersonIdByLogin(d.getLogin());
+        pl.addPerson(forname, surname, login, password);
+        
+        int personid = pl.getPersonIdByLogin(login);
         
         if(personid == -1){
-            return;
+            return -1;
         }
         
         dl.addDoctor(personid);
+        
+        return 0;
     } 
     
-    public void createNewManager(Manager m){
-        if(m == null){
-            return;
+    public int createNewManager(String forname, String surname, String login, String password){
+        if(forname.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()){
+            return -1;
         }
         
-        pl.addPerson(m.getForname(), m.getSurname(), m.getLogin(), m.getPassword());
+        if(pl.getPersonIdByLogin(login) > 0){
+            return -2;
+        }
         
-        int personid = pl.getPersonIdByLogin(m.getLogin());
+        pl.addPerson(forname, surname, login, password);
+        
+        int personid = pl.getPersonIdByLogin(login);
         
         if(personid == -1){
-            return;
+            return -1;
         }
         
         ml.addManager(personid);
+        
+        return 0;
     }
     
     public DefaultListModel<String> parseAllStaff(){
